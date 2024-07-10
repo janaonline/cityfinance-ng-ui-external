@@ -1,0 +1,46 @@
+<!-- <div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12"> -->
+            <div class="table-responsive table-con">
+              <!-- table type is basically used for UI coloring and some styles -->
+                <table class="table" [ngClass]="table?.tableType" *ngFor="let table of data?.tables">
+                  <thead>
+                    <tr>
+                      <th
+                        scope="col"
+                        *ngFor="let column of table.columns"
+                        class="{{ column?.key }}">
+                        <div class="" [innerHtml]="column?.display_name"></div>
+                        <!-- {{ column?.display_name }} -->
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let row of table?.rows">
+                      <td
+                        *ngFor="let column of table?.columns"
+                        class="{{ column?.key }} br-slb"
+                      >
+                      <div class="" *ngIf="table?.tableType == 'four-slb'">
+                        <span class="ans" *ngIf="column.key === 'serviceLevelIndicators' || column.key === 'benchmark' || column.key === 'wghtd_score'">
+                          {{ row[column.key] }}
+                        </span>
+                       <div class="input-group data-input" *ngIf="column.key !== 'serviceLevelIndicators' && column.key !== 'benchmark' && column.key !== 'wghtd_score'">
+                            <input type="text" class="form-control" [value]="row[column.key]" disabled/>
+                            <span class="input-group-addon spanCustom"><em class="glyphicon">
+                                 {{ row.key === 'waterSuppliedPerDay' ? "LPCD" : "%" }}
+                            </em></span> 
+                       </div>
+                      </div>
+                    <div class="" *ngIf="table?.tableType != 'four-slb'">
+                      {{ row[column.key] }}
+                    </div>
+                    
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+        <!-- </div>
+    </div>
+</div> -->

@@ -1,0 +1,138 @@
+$font-color: #0f1f40;
+$font-family: "Archivo";
+.nav {
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
+.mat-tab-label-active {
+  background-color: #e67e15;
+}
+
+.nav-pills .nav-link {
+  border: 1px solid #d9dce6;
+  border-radius: 0px;
+  min-width: 8rem;
+  min-height: 4rem;
+  text-align: center;
+  letter-spacing: 0px;
+  color: #6e7281;
+  opacity: 1;
+  width: max-content;
+  font: normal normal 600 14px/18px "Montserrat";
+}
+
+.roundEdge {
+  border-radius: 8px 0px 0px 8px !important;
+}
+
+.roundEdge2 {
+  border-radius: 0px 8px 8px 0px !important;
+}
+
+.nav-link.active {
+  background-color: #e67e15;
+  color: #ffffff !important;
+}
+
+.nav-link2.active {
+  background-color: #3e5db1 !important;
+  border-color: #3e5db1;
+  color: #ffffff !important;
+}
+
+.nav-pills2 .nav-link2 {
+  border: 1px solid #d9dce6;
+  margin: 0.5rem;
+  height: auto;
+  text-align: center;
+  // border: 1px solid #9299b2;
+  border-radius: 6px;
+  width: max-content;
+  font: normal normal 400 14px/15px "Archivo";
+  letter-spacing: 0px;
+  color: #8b92a8;
+  background-color: #fff;
+}
+
+.nav-link2 {
+  border: 1px solid #d9dce6;
+  border-radius: 0px;
+  min-width: 4rem;
+  min-height: 2.5rem;
+  text-align: center;
+  letter-spacing: 0px;
+  color: #8b92a8;
+  opacity: 1;
+  background-color: #ffffff;
+}
+
+.headRow-table {
+  background-color: #e9ecf7;
+}
+
+.TableTitle {
+  color: $font-color;
+  font-family: $font-family;
+  font-weight: 600;
+}
+
+.nav > li > .pd {
+  padding: 0.8rem 1.5rem;
+}
+
+.nav > li > .pd2 {
+  padding: 0.6rem 0.6rem;
+}
+
+.stickyClass {
+  position: fixed;
+  top: 0;
+  background-color: white;
+  z-index: 200;
+  width: 100%;
+  margin: 0 auto;
+  left: 0;
+}
+@media screen and (max-width: 800px) {
+  .stickyClass {
+    position: fixed;
+    top: 0;
+    background-color: white;
+    z-index: 200;
+    width: 100%;
+    margin: 0 auto;
+    left: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    // display: -webkit-box;
+  }
+  .smallScreenPosition{
+    display: inline-flex;
+    margin-left: 7px;
+    margin-right: 7px;
+  }
+}
+
+.dataAvailabiltyTab {
+  background-color: #e5fff1;
+  color: #0fa755;
+  text-align: center;
+  width: 22rem;
+  margin: 0 auto;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.no-data {
+  text-align: center; 
+  margin-top: 30px;
+   margin-bottom: 30px
+}
+.t-1 {
+  color: #1e44ad; font-size: 22px; font-weight: 600
+}
+.t-2 {
+  color: #6e7281; font-size: 16px
+}

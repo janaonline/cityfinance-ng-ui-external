@@ -1,0 +1,201 @@
+// .sidebar {
+//     position: fixed;
+//     // top: 100px;
+//     left: 0;
+//     bottom: 0;
+//     overflow-y: scroll;
+//     //  max-height: 70%;
+// }
+// .main {
+//     position: relative;
+//     top: 0;
+//     left: 233px;
+// }
+.pd {
+    padding-bottom: 1rem;
+    padding-left: 16px;
+}
+
+.t-c {
+    color: #FFFFFF;
+}
+
+div.active {
+    background-color: #FFFFFF;
+    .linktext {
+        margin-top: 8px;
+        color: #212121;
+    }
+    .svg-icon {
+        filter: none;
+    }
+    .svg-gt {
+        filter: invert(1);
+    }
+}
+
+.svg-icon {
+    filter: invert(1);
+}
+
+.mat-icon {
+    color: red;
+}
+
+.link-div:hover {
+    background-color: #FFFFFF;
+    .linktext {
+        margin-top: 8px;
+        color: #212121;
+    }
+    .svg-icon {
+        filter: none;
+    }
+    .svg-gt {
+        filter: invert(1);
+    }
+}
+
+.linktext {
+    margin-top: 8px;
+    color: #FFFFFF;
+}
+
+.link-div {
+    background-color: #114551;
+    margin-left: 0;
+}
+
+.link-div-u {
+    background-color: #DCDCDC;
+    padding-left: 3rem;
+}
+
+.linktext-u {
+    margin-top: 10px;
+    color: #212121;
+    margin-bottom: 6px;
+    padding-left: 5px;
+}
+
+.m-l-u {
+    margin-left: 6px;
+}
+
+.m-l {
+    margin-left: 6px;
+}
+
+.subBtnDiv {
+    margin-top: 20px;
+}
+
+.subBtn {
+    background-color: #124A55;
+    font-size: 12px;
+    font-weight: normal;
+    font-family: Segoe UI;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    color: #FFFFFF;
+    padding-left: 4%;
+    padding-right: 4%;
+    height: 32px;
+}
+
+.header1 {
+    font-family: Roboto, Medium;
+    color: #373737;
+    font-size: 24px;
+    margin-bottom: 20px;
+    margin-top: 30px;
+}
+
+.stiHieght {
+    // position: fixed;
+    // height: 19%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.sticky {
+    // position: fixed;
+    // top: 19%;
+    // overflow-x: hidden;
+    // overflow-y: auto;
+    // z-index: 10;
+    // height: 69%;
+    //  width: 20%;
+    position: fixed;
+    width: 16.66666667%;
+    top: 1px;
+}
+
+.stickyMain {
+    margin-left: 17%;
+}
+
+@media screen and (max-width: 1170px) {
+    .stiHieght {
+        // position: fixed;
+        // height: 19%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
+    .sideNav {
+        background-color: #F2F2F2;
+        height: 600px;
+        // overflow-y: scroll;
+        overflow-x: hidden;
+    }
+    .sticky {
+        // position: fixed;
+        // top: 19%;
+        // overflow-x: hidden;
+        // overflow-y: auto;
+        // z-index: 10;
+        // height: 69%;
+        //  width: 20%;
+        position: fixed;
+        width: 16.66666667%;
+        top: 1px;
+    }
+}
+
+.sideNav {
+    // background-color: #F2F2F2;
+    height: 600px;
+    // overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.sidebar {
+    margin-top: 1px;
+    // width: 18%;
+    padding-left: 15px;
+    padding-right: 3px;
+    // height: 600px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+::ng-deep {
+    .spinner {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        padding-left: 15%;
+        padding-top: 12%;
+    }
+}
+
+.aTag {
+    text-decoration: none;
+    font-weight: 500px;
+    font-size: 14px;
+}

@@ -1,0 +1,49 @@
+<div class="public-files n-sm">
+  <h2><span> Resources </span></h2>
+</div>
+
+<div class="w-100 b-sm">
+  <div class="inner-head">
+    <div class="back-icon">
+      <a routerLink="/home"
+        ><span class="glyphicon glyphicon-arrow-left"></span
+      ></a>
+    </div>
+    <div class="head-content">
+      <h5>Resources</h5>
+    </div>
+  </div>
+</div>
+<!-- w-100 end -->
+
+<div class="files-wrapper">
+  <div class="skeleton-wrapper" *ngIf="!files">
+    <app-pre-loader></app-pre-loader>
+    <app-pre-loader></app-pre-loader>
+    <app-pre-loader></app-pre-loader>
+  </div>
+  <div *ngFor="let file of files" class="file">
+    <img [src]="file.imageUrl" [alt]="file.name" />
+    <div class="details">
+      <table>
+        <tbody>
+          <tr>
+            <td>
+              {{ file.name }}
+            </td>
+            <td>
+              <a [href]="file.downloadUrl | toStorageUrl" target="_blank">
+                <i
+                  title="Download"
+                  class="fa fa-cloud-download"
+                  aria-hidden="true"
+                  style="float: right;"
+                ></i>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

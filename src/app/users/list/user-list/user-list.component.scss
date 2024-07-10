@@ -1,0 +1,67 @@
+.container {
+  width: 100%;
+  max-width: 100vw;
+}
+
+.actionCell {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding-right: 17%;
+  padding-left: 17%;
+}
+.form-control{
+  width: 0;
+}
+td {
+  border: 1px solid #ccc7c7;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  padding-left: 6px;
+}
+
+.form-control {
+  border-radius: 4px;
+}
+
+.sortable-headers > th {
+  cursor: pointer;
+}
+
+table .input-group {
+  // width: 88%;
+
+  input,
+  select {
+    border-radius: 5px;
+  }
+}
+:host {
+  table tbody tr:nth-child(even) {
+    background: rgb(236, 236, 236) !important;
+  }
+  table tbody tr:nth-child(odd) {
+    background: white;
+  }
+  table thead tr th {
+    border: 0px;
+  }
+}
+
+.clickable {
+  color: rgb(8, 131, 212);
+  cursor: pointer;
+}
+i {
+  transition: all 0.2s;
+}
+
+i:hover {
+  color: rgb(8, 131, 212);
+}
+
+::ng-deep {
+  .linkColor {
+    color: #0883d4 !important;
+  }
+}

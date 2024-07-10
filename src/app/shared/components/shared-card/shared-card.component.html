@@ -1,0 +1,123 @@
+<div [ngSwitch]="data.type">
+  <div *ngSwitchCase="1" class="card" [ngStyle]="cardStyle">
+    <div class="card-body">
+      <h5 class="card-title">{{ data.title }}</h5>
+      <span>{{ data.subTitle }}</span>
+      <div *ngIf="showButtons" class="text-center">
+        <button class="mr-1" *ngFor="let item of data.actionButtons" mat-button>
+          {{ item.name }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngSwitchCase="2" class="card text-center" style="width: 100%">
+    <div class="card-body">
+      <img class="mb-1 pb-1" src="{{ data.svg }}" />
+      <h5 class="card-title" style="font-weight: bold; font-size: 1em">
+        {{ data.number }}
+      </h5>
+      <span class="lowerText">{{ data.subTitle }}</span>
+    </div>
+  </div>
+  <div
+    *ngSwitchCase="3"
+    class="card"
+    [ngStyle]="{
+      width: cardStyle?.width,
+      'border-radius': cardStyle.borderRadius,
+      width: cardStyle.width
+    }"
+  >
+    <div class="card-body">
+      <span class="project"
+        >Project ID:
+        <span style="font-weight: bold">{{ data.projectId }}</span></span
+      >
+      <h5 class="card-title mt-1">{{ data.title }}</h5>
+      <span
+        >INR
+        <span style="font: normal normal bold 18px/20px Archivo">{{
+          data.amount
+        }}</span></span
+      >
+    </div>
+  </div>
+  <div
+    *ngSwitchCase="4"
+    class="card text-center res-card"
+    [ngClass]="{ activeCard: cardActive }"
+    [ngStyle]="{
+      height: cardStyle?.height,
+      'border-radius': cardStyle.borderRadius,
+      width: cardStyle.width
+    }"
+  >
+    <div class="card-body">
+      <img class="mb-1 pb-1" src="{{ data.svg }}" />
+      <h5 class="resources-h">{{ data.title }}</h5>
+
+      <span class="resources-sub-h">{{ data.subTitle }}</span>
+    </div>
+  </div>
+
+  <div *ngSwitchCase="5">
+    <div
+      class="d-flex justify-content-center mx-2 my-2 p-2 text-center flex-column rounded revenue-card"
+    >
+      <div *ngIf="data.isLoading">Loading..</div>
+      <h3 *ngIf="!data.isLoading" class="title">{{ data.title }}</h3>
+      <p class="subTitle">{{ data.subTitle }}</p>
+      <div *ngIf="data.isLoading">Loading..</div>
+      <span *ngIf="!data.isLoading" class="arrow-title">
+        <img class="" src="{{ data.svg }}" />
+        <span [ngStyle]="{ color: data.color }" class="percentage"
+          >{{ data.percentage }}%</span
+        >
+      </span>
+    </div>
+  </div>
+  <div *ngSwitchCase="6">
+    <div class="container" style="background-color: #fffbef">
+      <div id="{{ data.chartId }}chart1" class="chartjs-wrapper">
+        <canvas id="{{ data.chartId }}chartjs-gauge"></canvas>
+      </div>
+      <div class="row text-center">
+        <div
+          class="row"
+          style="
+            padding-left: 10%;
+            z-index: 8;
+            font-size: 1.2rem;
+            margin-top: -16%;
+            font-weight: 500;
+            font-family: 'Archivo';
+          "
+        >
+          <span>{{ data.value }} {{ getType() }}</span>
+        </div>
+        <div class="row">
+          <div class="col-sm-12 text-center textPadding">
+            <span class="chartAbout"> {{ data.name }} </span>
+          </div>
+          <div class="col-sm-12 icon">
+            <span *ngIf="data?.value > data?.nationalValue && showThumb">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="30px"
+                viewBox="0 0 24 24"
+                width="30px"
+                fill="#04D30C"
+              >
+                <path d="M0 0h24v24H0V0z" fill="none" />
+                <path
+                  d="M13.11 5.72l-.57 2.89c-.12.59.04 1.2.42 1.66.38.46.94.73 1.54.73H20v1.08L17.43 18H9.34c-.18 0-.34-.16-.34-.34V9.82l4.11-4.1M14 2L7.59 8.41C7.21 8.79 7 9.3 7 9.83v7.83C7 18.95 8.05 20 9.34 20h8.1c.71 0 1.36-.37 1.72-.97l2.67-6.15c.11-.25.17-.52.17-.8V11c0-1.1-.9-2-2-2h-5.5l.92-4.65c.05-.22.02-.46-.08-.66-.23-.45-.52-.86-.88-1.22L14 2zM4 9H2v11h2c.55 0 1-.45 1-1v-9c0-.55-.45-1-1-1z"
+                />
+              </svg>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

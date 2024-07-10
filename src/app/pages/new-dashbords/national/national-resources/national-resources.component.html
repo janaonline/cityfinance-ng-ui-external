@@ -1,0 +1,18 @@
+<div class="container container-cnt">
+    <div class="row" style="margin: 1rem auto  1rem auto;">
+        <div class="col-sm-12" style="display: flex;">
+            <div class="row row-cols-1 row-cols-md-4">
+                <a *ngFor="let item of whatNewData" [href]="item?.downloadUrl | toStorageUrl" target="_blank">
+                    <div class="card">
+                        <img [src]="item?.imageUrl | toStorageUrl" class="card-img-top" [alt]="item.label" width="250" height="200">
+                        <div class="card-body">
+                            <p class="card-text">
+                                {{item?.name}}
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>         
+        </div>
+    </div>
+</div>

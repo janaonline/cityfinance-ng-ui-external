@@ -1,0 +1,18 @@
+<div class="container-fluid mb-4">
+    <div class="text-end mb-2">
+        <a mat-dialog-close>
+            <mat-icon aria-hidden="false">
+                <img src="../../../../../assets/form-icon/close-red-icon.png" style="color: red;">
+            </mat-icon>
+        </a>
+    </div>
+    <div class="img-c">
+        <div class="card m-2" *ngFor="let imgUrl of data">
+            <div class="card-body ">
+                <img class="ml-2" [src]="imgUrl.url | toStorageUrl" alt="" width="200px" height="180px">
+            </div>
+        </div>
+    </div>
+
+
+</div>

@@ -1,0 +1,413 @@
+<!-- <div *ngIf="isLoading" 
+      class="container-fluid spinner_overlay d-flex justify-content-center align-items-center"
+>
+    <mat-spinner></mat-spinner>
+</div> -->
+<!-- <div *ngIf="!isLoading"> -->
+<div class="container-fluid dashboard-container">
+  <div class="container">
+    <div class="row justify-content-center align-items-center">
+      <h1 class="perform-dashboard-heading text-center">
+        Own Revenue Performance
+      </h1>
+      <p class="perform-dashboard-para col-12 text-center">
+        The performance dashboard showcases the state of own revenues,
+        especially property tax in ULBs across India. The data has been sourced
+        from the financial statements uploaded on cityfinance.in. Know your
+        State’s or city’s performance and compare with other States and cities
+        on various own revenue parameters.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="two-tabs">
+  <div
+    class="container-fluid"
+    style="background-color: white; padding-top: 20px; padding-bottom: 6px"
+  >
+    
+   
+  </div>
+</div> -->
+<div class="container-fluid two-tabs bg-white">
+  <div *ngIf="sticky" class="dataavail">
+    <span style="
+        padding-top: 30px;
+        font-size: 0.9rem;
+        width: 12%;
+        color: rgb(0, 0, 134);
+      ">Data Availability - {{ dataAvailable }}% ({{ body.financialYear }})</span>
+  </div>
+  <div class="container d-flex justify-content-center">
+    <a class="text-decoration-none col-6 col-md-4 col-lg-4 rounded-start d-flex justify-content-center align-items-center first-tab tab"
+      (click)="changeTab('own')" [ngClass]="{ activeCls: ownTab, unActcls: !ownTab }">
+      Own Revenue Performance Dashboard
+    </a>
+    <a class="text-decoration-none col-6 col-md-4 col-lg-4 rounded-end d-flex justify-content-center align-items-center second-tab tab"
+      (click)="changeTab('pro')" [ngClass]="{ activeCls: proTab, unActcls: !proTab }">
+      Property Tax Performance Dashboard
+    </a>
+  </div>
+</div>
+<!-- <div class="container threeBtnContainer" *ngIf="displayButtons">
+  <button class="btn btn-outline-secondary btn-sm btnS">Summary</button>
+  <button
+    class="btn btn-outline btn-sm btnDT"
+    [routerLink]="[
+      '/resources-dashboard/learning-center/toolkits/introduction'
+    ]"
+    routerLinkActive="router-link-active"
+  >
+    Digital Tooklit
+  </button>
+  <button
+    class="btn btn-outline btn-sm btnBP"
+    [routerLink]="['/resources-dashboard/learning-center/bestPractices']"
+    routerLinkActive="router-link-active"
+  >
+    Best Practices
+  </button>
+</div> -->
+
+<div class="container cont-p">
+  <!-- para -->
+  <p class="para-styling statusPara">
+    To view your performance, select
+    <span class="para_word_styling"> State </span> or
+    <span class="para_word_styling"> ULB Name. </span> If you want to view the
+    performance of all
+    <span class="para_word_styling"> ULBs within a ULB type </span> or
+    <span class="para_word_styling"> ULB Population </span> Category then select
+    your respective <span class="para_word_styling"> State </span> and the
+    <span class="para_word_styling"> ULB type </span> or population category.
+    Also, select the financial year for which the performance should be
+    displayed.
+  </p>
+
+  <!-- <div class="container rounded filters-container py-3">
+    <app-filter-component></app-filter-component>
+  </div> -->
+  <!-- filter component -->
+  <form [formGroup]="filterGroup">
+    <div class="container rounded filters-container py-3">
+      <div class="row">
+        <a (click)="openFilter()" class="text-decoration-none fil-btn">
+          <h5 class="text-center d-flex justify-content-center">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000">
+              <path d="M0 0h24v24H0V0z" fill="none" />
+              <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z" />
+            </svg>
+            Filter by
+          </h5>
+        </a>
+        <div class="col-md-12 d-flex pt-2 fl-form">
+          <div class="d-flex flex-wrap">
+            <div class="col-md-2 me-1">
+              <angular2-multiselect class="form-select" (onSelect)="onStateChange($event)"
+                (onDeSelectAll)="onStateChange(deSelectStateObject)" class="expo-drp-in ind-selct" [data]="stateList"
+                [formControl]="state" [settings]="dropdownSettings">
+              </angular2-multiselect>
+            </div>
+
+            <div class="col-md-2 mx-1">
+              <input type="text" class="filter searchField w-100" placeholder="ULB" matInput formControlName="ulb"
+                [matAutocomplete]="auto" />
+              <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                <a (click)="filterData('ulb', option)" *ngFor="let option of filteredOptions; let i = index"
+                  style="text-decoration: none">
+                  <mat-option [value]="option?.name">
+                    <span style="font-size: medium"> {{ option?.name }}</span>
+                  </mat-option>
+                </a>
+              </mat-autocomplete>
+            </div>
+            <div class="col-md-2 mx-1">
+              <select formControlName="ulbType" (change)="filterData('ulbType', '')" class="form-select filter w-100">
+                <option selected>ULB Type</option>
+                <option *ngFor="let ulbType of ulbTypeList" [value]="ulbType._id">
+                  {{ ulbType.name }}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-2 mx-1">
+              <select (change)="filterData('popCat', '')" formControlName="populationCategory"
+                class="form-select filter w-100">
+                <!-- <option selected>ULB Population Category</option> -->
+                <option [value]="category" *ngFor="let category of populationCategoryList">
+                  {{ category }}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-2 mx-1">
+              <select (change)="filterData('year', '')" formControlName="financialYear"
+                class="form-select filter w-100">
+                <option>Year</option>
+                <option *ngFor="let year of yearList" [value]="year">
+                  {{ year }}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-1 ms-1">
+              <button (click)="clearFilter()"
+                class="btn btn-outline-secondary btn-xs btn-os btn-clear-filters filter clear-btn px-0 py-1">
+                Clear All
+                <img src="../../../assets/resources-das/cancel_off_orange_18dp.svg" alt="cancel_off_icon" />
+              </button>
+            </div>
+          </div>
+          <!-- <div class="col-md-2 col col-sm d-flex justify-content-between">
+            <button
+              (click)="clearFilter()"
+              class="btn btn-outline-secondary btn-sm btn-os btn-clear-filters"
+            >
+              Clear All
+              <img
+                src="../../../assets/resources-das/cancel_off_orange_18dp.svg"
+                alt="cancel_off_icon"
+              />
+            </button>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </form>
+  <!-- Data Availability section starts -->
+  <div [ngClass]="{ gap: !availValue }" class="container data-availability rounded">
+    <div class="row">
+      <div class="col-md-7">
+        <h3 class="heading" style="font-size: 1.5rem">Data Availability</h3>
+        <p class="da-para dataAvailablePara">
+          {{ dataAvailable }}% of the ULBs in the chosen category have uploaded
+          their financial statements for the year {{ body.financialYear }}.
+          <span *ngIf="notFoundNames.length > 0">
+            Data is not available for several ULBs including
+            <span *ngFor="let name of notFoundNames; let i = index">{{ name
+              }}<span *ngIf="i != notFoundNames.length - 1">, </span></span>.</span>
+          <span>
+            For more details, download the complete set of ULBs for which the
+            data is available for the year {{ body.financialYear }}.
+          </span>
+          <span class="three-dots" *ngIf="showButton">...</span>
+          <span class="three-dots btn-rm" *ngIf="showButton" (click)="open()">
+            Read More
+          </span>
+          <span id="collapseManual">
+            {{ ToggleString }}
+          </span>
+          <span class="three-dots btn-rm" *ngIf="!showButton" (click)="close()">
+            Read Less
+          </span>
+        </p>
+        <button (click)="downloadCSV('data-availability')" class="btn btn-outline-secondary btn-sm btn-os btn-download">
+          <img src="../../../assets/resources-das/file_download_orange_24dp.svg" alt="download_icon" />
+          Download Data
+        </button>
+      </div>
+
+      <div class="col-md-5 d-flex justify-content-center">
+        <div class="doughnut-container">
+          <div *ngIf="dataAvailLoading" style="text-align: center">
+            Loading...
+          </div>
+
+          <canvas id="myChart1" width="100%"> </canvas>
+
+          <p *ngIf="!dataAvailLoading" class="doughnut_percentage text-center">
+            {{ financialYear?.data?.percent }}%
+          </p>
+          <p *ngIf="!dataAvailLoading" class="doughnut_text text-center">
+            Data Availability
+          </p>
+          <button class="btn btn-outline-secondary btn-sm btn-os btn-ghost" (click)="downloadCSV('data-availability')">
+            <img src="../../../assets/resources-das/file_download_orange_24dp.svg" alt="download_icon" />
+            Download Data
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="availValue > 0">
+    <!-- Full doughnut chart section -->
+    <div class="container total-revenue-doughnut" *ngIf="displayDoughnut">
+      <div *ngIf="pieChartLoading"
+        class="container-fluid spinner_overlay d-flex justify-content-center align-items-center">
+        <mat-spinner></mat-spinner>
+      </div>
+      <div *ngIf="!pieChartLoading">
+        <app-revenuechart *ngIf="!pieChartLoading" class="" [headerActions]="headerActions"
+          [chartData]="doughnutChartData" [chartId]="doughnutChartId" [chartTitle]="doughnutChartTitle"
+          [ChartOptions]="doughnutChartOptions" [notFound]="chartDataNotFound"
+          [sourceDashboardName]="sourceDashboardName"
+          [selectedFinancialYear]="filterGroup.controls.financialYear.value">
+        </app-revenuechart>
+      </div>
+    </div>
+    <!-- cards section -->
+    <div class="container revenue-stocks-container">
+      <div class="row">
+        <div class="col-lg-2 col-md-12 col-12">
+          <div class="rounded revenue-card-white mx-2">
+            <p>
+              You can compare your performance to the average or median
+              performance of population category wise ULBs of your State.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-10">
+          <div class="row mx-0">
+            <div class="col-md-6 col-sm-12 p-0" [ngClass]="{ 'col-lg-3': ownTab, 'col-lg-4': proTab }"
+              *ngFor="let cardItem of cardData">
+              <app-shared-card class="rc-cont" [data]="cardItem">
+              </app-shared-card>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="smallText" style="margin-top: 5px">
+        Please note that this calculation is affected by the mismatch in the
+        number of cities that have uploaded their financial statements in two
+        consecutive years
+      </p>
+    </div>
+    <!-- table -->
+    <div class="container" style="margin-left: -2%; width: 102%" *ngIf="users.length > 0">
+      <div class="table-container table-responsive">
+        <div class="spinner" *ngIf="tableDataLoading"
+          style="z-index: 999999; display: flex; flex-direction: column;  position: fixed; top: 0px; bottom: 0px">
+          <div class="row">
+            <mat-spinner></mat-spinner>
+          </div>
+          <div class="row">
+            <span class="spinText">Please Wait. Data is Loading...</span>
+          </div>
+        </div>
+        <table *ngIf="!tableDataLoading" style="border-radius: 10px" class="table styletable">
+          <thead>
+            <tr class="scrollme scrollableTH">
+              <th class="col-attr" [class]="'th' + i" scope="col"
+                *ngFor="let attribute of columnAttribut; let i = index">
+                {{ attribute.title }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="scrollme scrollableTB" *ngFor="let user of users">
+              <td>{{ user.name }}</td>
+              <td class="rightAlign">
+                {{ (user.averageRevenue / 10000000).toFixed(0) }}
+              </td>
+              <td class="rightAlign">{{ user.median }}</td>
+              <td class="rightAlign">{{ user.avgRevenueMeet }}%</td>
+              <td class="rightAlign" *ngIf="ownTab">
+                {{ user.meetsRevenue }}%
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p *ngIf="notFoundNames.length > 0" class="smallText">
+        Please note financial data for
+        <span *ngFor="let name of notFoundNames">{{ name }}, </span> is not
+        available and thus, is not depicted here.
+      </p>
+    </div>
+    <div *ngIf="users.length == 0">Loading..</div>
+    <!-- accordion -->
+    <div class="container accContainer">
+      <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+          <p class="accordion-header">
+            <button class="accordion-button collapsed accBg" type="button" id="headingOne" data-bs-toggle="collapse"
+              data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+              How is performance assessed?
+            </button>
+          </p>
+          <div id="collapseOne" class="accordion-collapse collapse hide" data-bs-parent="#accordionExample">
+            <div class="accordion-body d-flex justify-content-between accBg">
+              <div class="d-flex accColOneContent col-12 col-md-6 col-lg-6 px-1">
+                <div>
+                  <img class="img-fluid me-4" src="../../../assets/resources-das/north_east_green_24dp.svg"
+                    alt="green_arrow_icon" />
+                </div>
+                <p>
+                  <span class="imgTitle">Upward arrow:</span> The performance
+                  has increased (by the percentage indicated alongside the
+                  arrow) as compared to the previous year
+                </p>
+              </div>
+              <div class="d-flex accColTwoContent col-12 col-md-6 col-lg-6 px-1">
+                <div>
+                  <img class="img-fluid me-4" src="../../../assets/resources-das/south_west_red_24dp.svg"
+                    alt="red_arrow_icon" />
+                </div>
+                <p>
+                  <span class="imgTitle">Downward arrow:</span> The performance
+                  has decreased (by the percentage indicated alongside the
+                  arrow) as compared to the previous year
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bar chart section -->
+    <div class="container barChartContainer">
+      <ng-container *ngIf="tempDataHolder?.list?.length > 0">
+        <p class="barCharttitle text-center">
+          Compare {{ tempDataHolder?.typeTitle || "ULBS" }} on {{ tempDataHolder?.param }}
+        </p>
+      </ng-container>
+      <ng-container *ngIf="
+          !tempDataHolder.hasOwnProperty('list') ||
+          tempDataHolder?.list?.length == 0
+        ">
+        <h2 class="barCharttitle text-center">
+          Top 10 Performing {{ tempDataHolder?.typeTitle || "ULBS" }}
+        </h2>
+        <p class="barChartSubTitle text-center">
+          Top 10 performing {{ tempDataHolder?.typeTitle || "ULBS" }} in the country in {{ tempDataHolder?.param }} can be viewed below.
+        </p>
+      </ng-container>
+
+      <app-revenuechart class="rounded" [compareDialogType]="compareDialogType" [headerActions]="headerActions"
+        (compareChange)="barChartCompValues($event)" [chartData]="barChartData" [chartId]="barChartId"
+        [chartTitle]="barChartTitle" [btnBesideText]="barChartCmpBtn" [ChartOptions]="barChartStatic"
+        [notFound]="barChartNotFound" [own]="ownTab"
+        [preSelectedOwnRevenueDbParameter]="preSelectedOwnRevenueDbParameter"
+        [sourceDashboardName]="sourceDashboardName" [selectedFinancialYear]="filterGroup.controls.financialYear.value">
+      </app-revenuechart>
+
+      <p class="text-center my-2">Supported by the <a style="color: #3F48CC;" class="fw-bold" target="_blank"
+          href="https://www.worldbank.org/en/programs/the-global-tax-program">Global Tax Program</a> of the World Bank
+      </p>
+      <div class="container-fluid">
+        <div class="chartExcelDataCont d-flex justify-content-center align-items-center">
+          <p class="DataDownloadText">
+            You can also download the source data in excel format
+          </p>
+          <button (click)="downloadCSV('topPerformance')"
+            class="btn btn-outline-secondary btn-sm btn-os mt-0 btn-download">
+            <img src="../../../assets/resources-das/file_download_orange_24dp.svg" alt="download_icon" />
+            Download Data
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="proTab" class="addText">
+        Additional Information on Property Tax:
+        <a class="noDecor" [routerLink]="[
+            '/resources-dashboard/learning-center/toolkits/introduction'
+          ]" target="_blank">
+          Digital Toolkit</a>
+        and
+        <a class="noDecor" [routerLink]="['/resources-dashboard/learning-center/bestPractices']" target="_blank">Best
+          Practices</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- </div> -->

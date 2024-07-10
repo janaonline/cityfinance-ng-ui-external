@@ -1,0 +1,66 @@
+.footerBtnDiv {
+    margin-top: 2rem;
+    // padding-left: 0px;
+    // padding-right: 0;
+    margin-bottom: 1rem;
+}
+
+.card-body {
+    //  margin-right: 20px;
+    //  margin-left: 20px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    //  width: 97%;
+    height: auto;
+    background-color: #F7F7F7;
+}
+
+.qbtn {
+    top: 321px;
+    left: 370px;
+    width: 72px;
+    height: 30px;
+    margin-top: 2rem;
+    background-color: #CFCFCF;
+    margin-bottom: 1pc;
+}
+
+.footerBtn {
+    width: auto;
+    height: 32px;
+    background-color: #26A1A1;
+    color: #FFFFFF;
+    font-weight: normal;
+    font-size: 12px;
+    padding-left: 4%;
+    padding-right: 4%;
+}
+
+.backbtn {
+    background-color: #CFCFCF;
+    color: #FFFFFF;
+    width: auto;
+    height: 32px;
+    padding-left: 4%;
+    padding-right: 4%;
+}
+
+.btnClick {
+    background-color: #ffc500 !important;
+}
+
+.btn:hover {
+    background-color: #ffc500;
+    font-weight: bold;
+}
+
+.subTitle {
+    font-family: "Roboto", sans-serif;
+}
+
+.btn-y,
+.btn-n {
+    // width: 72px;
+    background-color: #CFCFCF;
+    padding: .3rem 1rem;
+}

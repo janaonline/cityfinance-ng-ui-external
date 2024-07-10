@@ -1,0 +1,224 @@
+<div [ngClass]="{ 'fc-grant-2': !(isULBProfileCompleted === false) }" *ngIf="
+    !loggedInUserType || loggedInUserType === USER_TYPE.ULB;
+    else showLoader
+  ">
+  <div class="container-fluid" *ngIf="!(isULBProfileCompleted === false)">
+    <div class="d-flex flex-wrap justify-content-center align-items-center">
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="padding: 0.5rem 1.5rem 0 0.5rem;">
+        <div>
+          <h3 style="color: white; font-size: 30px;">
+            XV Finance Commission<br /> Grants Management System
+          </h3>
+          <p>Welcome to <a style="color: #c3cb24;" href="http://cityfinance.in/">Cityfinance.in</a>, the official grant management system for the administration of the Fifteenth Finance Commission (XV FC) grants to Urban Local Bodies (ULBs) in India. Under the oversight of the Ministry of Housing and Urban Affairs (MoHUA), the platform handles the allocation and disbursement of grants totaling Rs. 1,08,916 Crore for the fiscal years 2021-2026.</p>
+          <p><a style="color: #c3cb24;" href="http://cityfinance.in/">Cityfinance.in</a> serves to facilitate smooth communication and data exchange among ULBs, State Urban Development Departments (UDDs), and MoHUA, ensuring efficiency and transparency in the process.</p>
+        </div>
+        <p class="text-white">Reference Documents:-</p>
+        <ul class="list-group list-inline">
+          <li>
+            <a class="pdfLink" href="../../../../../assets/files/ULB Nodal Officers Manual for Claiming XV FC ULB Grants Oct 2021.pdf"
+              target="_blank">
+              <i class="fa fa-circle" aria-hidden="true"></i> ULB Nodal Officers Manual for Claiming XV FC ULB Grants
+              for 2021-22
+            </a>
+          </li>
+          <li>
+            <a class="pdfLink" href="../../../../../assets/files/State Nodal Officers Manual for Claiming XV FC ULB Grants Oct 2021.pdf"
+              target="_blank">
+              <i class="fa fa-circle" aria-hidden="true"></i> State Nodal Officers Manual for Claiming XV FC ULB Grants
+              for 2021-22
+            </a>
+          </li>
+
+          <li style="display:inline-block;">
+            <a class="pdfLink" href="../../../../../assets/files/XVFC VOL I Main Report 2021-26.pdf" target="_blank">
+              <i class="fa fa-circle" aria-hidden="true"></i> XV-FC VOL I Main Report 2021-26
+            </a>
+          </li>
+
+          <li style="display:inline-block;">
+            <a class="pdfLink" href="../../../../../assets/files/XV-FC -VOL II Annexes.pdf" target="_blank">
+              <i class="fa fa-circle" aria-hidden="true"></i> XV-FC -VOL II Annexes
+            </a>
+          </li>
+          <li>
+            <a class="pdfLink" href="../../../../../assets/files/XV FC Marking Scheme Guidelines.pdf" target="_blank">
+              <i class="fa fa-circle" aria-hidden="true"></i> MoHUA Marking Scheme
+            </a>
+          </li>
+          <li>
+            <a class="pdfLink" href="../../../../../assets/files/FC-XV recommended Urban Local Body Final Operational Guidelines for 2021-26.pdf"
+              target="_blank">
+              <i class="fa fa-circle" aria-hidden="true"></i> XV-FC recommended Urban Local Body Final Operational
+              Guidelines for 2021-26</a>
+          </li>
+        </ul>
+      </div>  
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 text-center image-side">
+        <div *ngIf="!loggedInUserType">
+          <div class="img-wrapper text-center">
+            <img src="../assets/images/Group 13309-compressed.png" class="img-responsive m-auto" alt="Back img 2" />
+          </div>
+          <input type="submit" class="btn btn-primary" style="border-color: unset; border: none;" (click)="onClickingLoginButton()" value="LOGIN" />
+
+          <P class="support-text">For clarifications/ questions, please email us at
+            <br />
+            <a href="mailto:15fcgrant@cityfinance.in">15fcgrant@cityfinance.in</a>.
+          </P>
+          <p>We will respond to you within 24 hours.</p>
+        </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-12 progress-container">
+          <div *ngIf="
+              loggedInUserType &&
+              financialData &&
+              isULBMillionPlus !== null &&
+              isULBMillionPlus !== undefined
+            " class="d-flex justify-content-center flex-column align-items-center login-wrapper">
+            <span><span style="font-weight: 600; display: inline;">APPLICATION STATUS:</span>
+              {{ financialData.customStatusMessage }}</span>
+
+            <!-- multistep form -->
+            <div id="msform" *ngIf="
+                isULBMillionPlus !== undefined && isULBMillionPlus !== null
+              ">
+              <!-- progressbar -->
+              <ul class="progressbar">
+                <li [ngClass]="{
+                    completed: evidencePercentageCompleted === 100,
+                    active:
+                      evidencePercentageCompleted > 0 &&
+                      evidencePercentageCompleted !== 100,
+                    pending: evidencePercentageCompleted === 0
+                  }">
+                  {{ evidencePercentageCompleted }}% <br />
+                  Service Level Indicators
+                </li>
+                <li [ngClass]="{
+                    completed: solidWastePercentageCompleted === 100,
+                    active:
+                      solidWastePercentageCompleted > 0 &&
+                      solidWastePercentageCompleted !== 100,
+                    pending: solidWastePercentageCompleted === 0
+                  }">
+                  {{ solidWastePercentageCompleted }}% <br />Upload Plans
+                </li>
+                <li *ngIf="isULBMillionPlus" [ngClass]="{
+                    completed: millionPlusCitiesCompleted === 100,
+                    active:
+                      millionPlusCitiesCompleted > 0 &&
+                      millionPlusCitiesCompleted !== 100,
+                    pending: millionPlusCitiesCompleted === 0
+                  }">
+                  {{ millionPlusCitiesCompleted }}%<br />
+                  Upload Plans(Million+ City)
+                </li>
+              </ul>
+            </div>
+
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" [ngStyle]="{
+                  'width.%': formCompletedPercentage
+                }" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                {{ formCompletedPercentage }}%
+              </div>
+            </div>
+            <a style="margin-bottom: 1%;" id="login" class="btn btn-primary btn-upload mt-1" (click)="
+                goToFormView('/user/xvform/upload-form/' + financialData._id)
+              ">
+              <ng-container [ngSwitch]="financialData.isCompleted">
+                <span *ngSwitchCase="true">
+                  {{
+                  financialData.status === uploadStatus.REJECTED
+                  ? "Update
+                  Rejected Data"
+                  : "View Filled Data"
+                  }}
+                </span>
+                <span *ngSwitchCase="false">
+                  {{
+                  financialData.actionTakenByUserRole === USER_TYPE.ULB
+                  ? "Complete Application"
+                  : "View Filled Data"
+                  }}
+                </span>
+              </ng-container>
+            </a>
+
+            <a (click)="openModal(financialData, historyModal)" class="mt-1" style="
+                text-decoration: underline;
+                cursor: pointer;
+                color: #059b9a;
+              ">
+              View History
+            </a>
+          </div>
+          <P class="support-text mt-3" *ngIf="
+              loggedInUserType &&
+              financialData &&
+              isULBMillionPlus !== null &&
+              isULBMillionPlus !== undefined
+            ">For clarifications/ questions, please email us at
+            <br />
+            <a href="mailto:15fcgrant@cityfinance.in">15fcgrant@cityfinance.in</a>.
+          </P>
+          <p *ngIf="
+              loggedInUserType &&
+              financialData &&
+              isULBMillionPlus !== null &&
+              isULBMillionPlus !== undefined
+            ">
+            We will respond to you within 24 hours.
+          </p>
+        </div>
+
+        <div class="preloader-wrapper" *ngIf="loggedInUserType && !financialData">
+          <app-pre-loader></app-pre-loader>
+        </div>
+
+        <div *ngIf="financialData === null" class="d-flex justify-content-center flex-column align-items-center">
+          <span><span style="font-weight: 600; display: inline;">APPLICATION STATUS:</span>
+            Not Filled</span>
+          <a id="login" class="btn btn-primary btn-upload mt-1" (click)="goToFormView('/user/xvform/upload-form')">Fill
+            Up 15th FC Form</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-incomplete-profile *ngIf="isULBProfileCompleted === false"></app-incomplete-profile>
+</div>
+
+<ng-template #showLoader>
+  <div>
+    <app-pre-loader></app-pre-loader>
+    <app-pre-loader></app-pre-loader>
+    <app-pre-loader></app-pre-loader>
+  </div>
+</ng-template>
+
+<ng-template #historyModal>
+  <div class="modal-body">
+    <div style="margin-bottom: 0.5rem; display: flex; justify-content: flex-end;">
+      <button style="min-width: min-content;" (click)="closePopUp()" class="btn btn-danger" title="Close" type="button"
+        data-dismiss="modal" aria-label="Close">
+        <em class="fa fa-times" style="color: white;"></em>
+      </button>
+    </div>
+
+    <div *ngIf=" inProgress">
+      <app-pre-loader></app-pre-loader>
+      <app-pre-loader></app-pre-loader>
+    </div>
+
+    <app-formhistory *ngIf="formHistoricalData?.length ;else noData" [data]="formHistoricalData"></app-formhistory>
+  </div>
+  <ng-template #noData>
+    <div class="row">
+      <div class="col-sm-12">
+        <h4 class="text-center">Nothing to show</h4>
+      </div>
+    </div>
+  </ng-template>
+</ng-template>
+
+<!-- <app-fc-home-page></app-fc-home-page> -->

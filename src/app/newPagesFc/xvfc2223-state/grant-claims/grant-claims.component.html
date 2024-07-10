@@ -1,0 +1,384 @@
+<div class="container-fluid mb-3" style="" *ngIf="!isApiInProgress">
+    <!-- heading and drop down -->
+    <div class="row mt-2">
+        <div class="col-sm-12 form-header">
+            Final submission of claims for 15th FC Grants (FY 2022-23)
+        </div>
+    </div>
+    <!-- claim for Non Million - Tied -->
+    <div *ngIf="display?.showQ2" class="row mt-3">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row m-0 a-l-i" style="">
+                                <div class="col-md-10">
+                                    <h6 class="uplod_label">1. Claim Non-Million Plus Cities Tied Grants</h6>
+                                </div>
+                                <div class="col-md-2 text-end" style="">
+                                    <button type="button" class="btn btn-primary" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseBasic">Select
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row mt-3 aco-d" id="collapseBasic" [collapse]="isCollapsed" [isAnimated]="true" style="">
+                            <div class="col-md-12">
+                                <div class="card mb-2">
+                                    <div class="card-body c-in" style="">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label>
+                                                    1st Installment (FY 2022-23):
+                                                </label>
+                                            </div>
+                                            <h4 class="c-st" style="">
+                                                Current Status:
+                                            </h4>
+                                            <ul class="u-l-h">
+                                                <li>
+                                                    {{currStatus_nmpc_tied_1st}}
+                                                    <!-- Claim Granted - {{claimsData?.nmpc_tied[0].amount}} Cr -->
+                                                    <!-- <a (click)="viewHistory(template, 'nmpc_tied', '1')">
+                                                        <span class="material-icons info-icon">
+                                                            info
+                                                        </span>
+                                                    </a> -->
+                                                </li>
+
+                                            </ul>
+                                            <div *ngIf="viewCond_nmpc_tied_1st">
+                                                <h4 class="c-st" style="">
+                                                    Conditions:
+                                                </h4>
+                                                <ul class="u-l-h">
+                                                    <li *ngFor="let condition of nmpcT1CondArr let i = index;">
+                                                        {{condition?.str}}. <span class="li-el">( {{condition?.value}}% Done)</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div *ngIf="btnLabel_nmpc_tied_1st" class="col-md-12 mt-3">
+                                                <div class="wrapper" [matTooltip]="tooltips" matTooltipClass="tooltip-red" [matTooltipDisabled]="currStatus_nmpc_tied_1st != 'Eligibility Condition Pending.'" matTooltipPosition="left">
+                                                    <a [ngClass]="{'disableCls': !nmpcTied_1_Data?.conditionSuccess}" (click)="finalConfirm('nmpc_tied','1', nmpc_tied_1st_grantAmount)" class="chip-btn" [ngStyle]="{'background-color': (nmpcTied_1_Data?.conditionSuccess)  ?  '#5cb85c' : '#059b9a' }">
+                                                        {{btnLabel_nmpc_tied_1st}}
+                                                   </a>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="card mb-2">
+                                    <div class="card-body c-in" style="">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label>
+                                                    2nd Installment (FY 2022-23) :
+                                                </label>
+                                            </div>
+                                            <h4 class="c-st" style="">
+                                                Current Status:
+                                            </h4>
+                                            <ul class="u-l-h">
+                                                <li>
+
+                                                    {{currStatus_nmpc_tied_2nd}}
+
+                                                    <!-- <a (click)="viewHistory(template, 'nmpc_tied', '2')">
+                                                        <span class="material-icons info-icon">
+                                                          info
+                                                      </span>
+                                                    </a> -->
+
+
+
+                                                </li>
+
+                                            </ul>
+                                            <div *ngIf="viewCond_nmpc_tied_2nd">
+                                                <h4 class="c-st">
+                                                    Conditions:
+                                                </h4>
+                                                <ul class="u-l-h">
+                                                    <li *ngFor="let condition of nmpcT2CondArr let i = index;">
+                                                        {{condition?.str}}. <span class="li-el">( {{condition?.value}}% Done)</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div *ngIf="btnLabel_nmpc_tied_2nd" class="col-md-12 mt-3">
+
+                                                <div class="wrapper" [matTooltip]="tooltips" matTooltipClass="tooltip-red" [matTooltipDisabled]="currStatus_nmpc_tied_2nd != 'Eligibility Condition Pending.'" matTooltipPosition="left">
+                                                    <a [ngClass]="{'disableCls': !nmpcTied_2_Data?.conditionSuccess}" (click)="finalConfirm('nmpc_tied','2', nmpc_tied_2nd_grantAmount)" class="chip-btn" [ngStyle]="{'background-color': (nmpcTied_2_Data?.conditionSuccess) ?  '#5cb85c' : '#059b9a' }">
+                                                    {{btnLabel_nmpc_tied_2nd}}
+                                               </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- Claim for Non Million Untied -->
+    <div *ngIf="display?.showQ3" class="row mt-3">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row m-0 a-l-i" style="">
+                                <div class="col-md-10">
+                                    <h6 class="uplod_label">2. Claim Non-Million Plus Cities Untied Grants</h6>
+                                </div>
+                                <div class="col-md-2 text-end" style="">
+                                    <button type="button" class="btn btn-primary" (click)="isCollapsed2 = !isCollapsed2" [attr.aria-expanded]="!isCollapsed2" aria-controls="collapseBasic2">Select
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row mt-3 aco-d" id="collapseBasic2" [collapse]="isCollapsed2" [isAnimated]="true" style="">
+                            <div class="col-md-12">
+                                <div class="card mb-2">
+                                    <div class="card-body c-in" style="">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label>
+                                                    1st Installment (FY 2022-23) :
+                                                </label>
+                                            </div>
+                                            <h4 class="c-st" style="">
+                                                Current Status:
+                                            </h4>
+                                            <ul class="u-l-h">
+                                                <li>
+                                                    {{currStatus_nmpc_untied_1st}}
+                                                    <!-- Claim Granted - INR {{claimsData?.nmpc_untied[0].amount}}Cr. -->
+                                                    <!-- <a (click)="viewHistory(template, 'nmpc_untied', '1')">
+                                                        <span class="material-icons info-icon" style="">
+                                                            info
+                                                        </span>
+                                                    </a> -->
+                                                </li>
+
+                                            </ul>
+                                            <div *ngIf="viewCond_nmpc_untied_1st">
+                                                <h4 style="font-size: 15px;
+                                          padding-left: 15px;">
+                                                    Conditions:
+                                                </h4>
+                                                <ul class="u-l-h">
+                                                    <li *ngFor="let condition of nmpcUT1CondArr let i = index;">
+                                                        {{condition?.str}}. <span class="li-el">( {{condition?.value}}% Done)</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div *ngIf="btnLabel_nmpc_untied_1st" class="col-md-12 mt-3">
+
+                                                <div class="wrapper" [matTooltip]="tooltips" matTooltipClass="tooltip-red" [matTooltipDisabled]="currStatus_nmpc_untied_1st != 'Eligibility Condition Pending.'" matTooltipPosition="left">
+                                                    <a [ngClass]="{'disableCls': !nmpcUntied_1_Data?.conditionSuccess}" (click)="finalConfirm('nmpc_untied','1', nmpc_untied_1st_grantAmount)" class="chip-btn" [ngStyle]="{'background-color': (nmpcUntied_1_Data?.conditionSuccess) ?  '#5cb85c' : '#059b9a' }">
+                                                        {{btnLabel_nmpc_untied_1st}}
+                                                   </a>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+
+                                <div class="card mb-2">
+                                    <div class="card-body  c-in" style="">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label>
+                                                    2nd Installment (FY 2022-23):
+                                                </label>
+                                            </div>
+                                            <h4 class="c-st" style="">
+                                                Current Status:
+                                            </h4>
+                                            <ul class="u-l-h">
+                                                <li>
+
+                                                    {{currStatus_nmpc_untied_2nd}}
+                                                    <!-- <a (click)="viewHistory(template, 'nmpc_untied', '2')">
+                                                        <span class="material-icons info-icon">
+                                                            info
+                                                        </span>
+                                                    </a> -->
+                                                </li>
+
+                                            </ul>
+                                            <div *ngIf="viewCond_nmpc_untied_2nd">
+                                                <h4 class="c-st" style="">
+                                                    Conditions:
+                                                </h4>
+                                                <ul class="u-l-h">
+                                                    <li *ngFor="let condition of nmpcUT2CondArr">
+                                                        {{condition?.str}}. <span class="li-el">( {{condition?.value}}% Done)</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div *ngIf="btnLabel_nmpc_untied_2nd" class="col-md-12 mt-3">
+
+                                                <div class="wrapper" [matTooltip]="tooltips" matTooltipClass="tooltip-red" [matTooltipDisabled]="currStatus_nmpc_untied_2nd != 'Eligibility Condition Pending.'" matTooltipPosition="left">
+                                                    <a [ngClass]="{'disableCls': !nmpcUntied_2_Data?.conditionSuccess}" (click)="finalConfirm('nmpc_untied','2', nmpc_untied_2nd_grantAmount)" class="chip-btn" [ngStyle]="{'background-color': (nmpcUntied_2_Data?.conditionSuccess) ?  '#5cb85c' : '#059b9a' }">
+                                                        {{btnLabel_nmpc_untied_2nd}}
+                                                   </a>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- claim for million  -->
+    <div *ngIf="display?.showQ1" class="row mt-3">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row m-0 a-l-i" style="">
+                                <div class="col-md-10">
+                                    <h6 class="uplod_label">3. Claim Million Plus Cities Tied Grants
+                                    </h6>
+                                </div>
+                                <div class="col-md-2 text-end" style="">
+                                    <button type="button" class="btn btn-primary" (click)="isCollapsed3 = !isCollapsed3" [attr.aria-expanded]="!isCollapsed3" aria-controls="collapseBasic3">Select
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 mt-3" id="collapseBasic3" [collapse]="isCollapsed3" [isAnimated]="true" style="padding-left: 30px;">
+                            <h4 class="c-st" style="">
+                                Current Status:
+                            </h4>
+                            <ul class="u-l-h">
+                                <li>
+
+                                    {{currStatus_mpc}}
+                                    <!-- <a (click)="viewHistory(template, 'mpc')">
+                                        <span class="material-icons info-icon">
+                                          info
+                                      </span>
+                                    </a> -->
+                                </li>
+                            </ul>
+                            <div *ngIf="viewCond_mpc">
+                                <h4 class="c-st" style="">
+                                    Conditions:
+                                </h4>
+                                <ul class="u-l-h">
+                                    <li *ngFor="let condition of mpcCondArr">
+                                        {{condition?.str}}. <span class="li-el">( {{condition?.value}}% Done)</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div *ngIf="btnLabel_mpc" class="wrapper mt-3" [matTooltip]="tooltips" matTooltipClass="tooltip-red" [matTooltipDisabled]="currStatus_mpc != 'Eligibility Condition Pending.'" matTooltipPosition="left">
+                                <div>
+                                    <a [ngClass]="{'disableCls': !mpcData?.conditionSuccess}" (click)="finalConfirm('mpc', '', mpc_grantAmount)" class="chip-btn" [ngStyle]="{'background-color': (mpcData?.conditionSuccess) ?  '#5cb85c' : '#059b9a' }">
+                                    {{btnLabel_mpc}}
+                               </a>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- question for GTC -->
+    <div class="row mt-4" style="">
+        <div class="col-md-12">
+            <h4 class="f-l">
+                <a [routerLink]="['../gtCertificate']">Click Here to Submit Grant Transfer Certificate</a>
+            </h4>
+        </div>
+    </div>
+    <div class="row mt-3 mb-3">
+        <div class="col-sm-6">
+            <button class="btn btn-c-back" [routerLink]="backRouter"><- Previous Form</button>
+        </div>
+        <div class="col-sm-6 text-end">
+            <button class="btn btn-c-next ms-3" [routerLink]="nextRouter">Next Form -></button>
+        </div>
+    </div>
+    <ng-template #template>
+        <div class="modal-title">
+            <div style="display: flex; justify-content: flex-end;">
+                <button style="min-width: min-content;" (click)="alertClose()" class="btn btn-danger" title="Close" type="button" data-dismiss="modal" aria-label="Close">
+                  <i class="fa fa-times" style="color: white;"></i>
+              </button>
+            </div>
+            <div>
+                <h3>Tracking</h3>
+            </div>
+        </div>
+        <div *ngIf="historyData.length>0" class="table-responsive" style="max-height: 50vh; overflow-y: auto">
+            <table class="table tracking-history-table">
+                <thead>
+                    <tr>
+                        <th style="position: sticky; top: 0" class="text-center"></th>
+                        <th style="position: sticky; top: 0">Sr. No</th>
+                        <th style="position: sticky; top: 0">Action</th>
+                        <th style="position: sticky; top: 0">Date</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let row of historyData; let i = index">
+                        <td></td>
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ row.status }}</td>
+                        <td>
+                            {{row.time | date: 'medium': 'GMT'}}
+
+                        </td>
+                    </tr>
+                </tbody>
+
+
+            </table>
+        </div>
+        <div *ngIf="historyData.length == 0" class="text-center alert" style="color: red;">No Data Found!</div>
+
+
+    </ng-template>
+</div>
+
+
+<div class="text-center p-4" *ngIf="isApiInProgress">
+    <app-pre-loader-new></app-pre-loader-new>
+</div>

@@ -1,0 +1,207 @@
+.container {
+    width: 100%;
+    height: auto;
+    margin-top: 2%;
+}
+
+.btnDraft {
+    background-color: #059b9a;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 16px;
+    width: -webkit-fill-available;
+}
+
+.btn-c-back {
+    background-color: #CFCFCF;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    font-weight: 500;
+}
+
+.btn-c-next {
+    background-color: #114551;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    font-weight: 500;
+    color: #fff;
+}
+
+.errorMessege {
+    color: #dc3545;
+    font-size: smaller;
+}
+
+.filePadding {
+    // padding-left: 23px;
+    font-style: italic;
+}
+
+.textEnd {
+    text-align: end;
+}
+
+.rightText {
+    text-align: end;
+}
+
+.question {
+    width: 100%;
+    // height: 75px;
+    // box-shadow: 2px 4px 5px #cecece;
+}
+
+.fontStyle {
+    font-weight: 500;
+}
+
+.image-upload>input {
+    display: none;
+}
+
+.btnUpload {
+    font-size: 12px;
+    background-color: #059b9a;
+    margin-left: .3rem;
+    margin-bottom: 0.25rem;
+    color: white;
+    width: 200px;
+}
+
+.btnUpload:active {
+    background-color: #ffc500;
+}
+
+.image-upload img {
+    cursor: pointer;
+}
+
+.btnUpload {
+    background-color: #059b9a;
+    margin-left: .3rem;
+    margin-bottom: 0.25rem;
+    color: white;
+    width: 200px;
+}
+
+.form-header {
+    font-family: Roboto, Medium;
+    color: #373737;
+    font-size: 20px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.btnUpload:hover {
+    background-color: #ffc500;
+}
+
+.btnUpload:active {
+    background-color: #ffc500;
+}
+
+.customDate {
+    width: max-content;
+    color: #dc3545;
+    font-size: 15px;
+    margin-top: -26px;
+}
+
+.card {
+    // width: 96%;
+    width: 100%;
+    height: auto;
+    margin-bottom: 2rem !important;
+    background-color: #FFFFFF;
+    box-shadow: 2px 4px 5px 4px #cecece;
+    padding: 15px 15px 15px 15px;
+    margin: auto;
+}
+
+.image-upload>input {
+    display: none;
+}
+
+.image-upload img {
+    cursor: pointer;
+}
+
+.greyInputs {
+    pointer-events: none;
+    background-color: #c9c9c9;
+    color: black;
+    opacity: 0.5;
+}
+
+.fadedClass {
+    pointer-events: none;
+    background-color: #059b9a;
+    color: white;
+    opacity: 0.5;
+}
+
+.marginClass {
+    margin-top: 1rem !important;
+}
+
+.customDisable {
+    cursor: not-allowed;
+    display: inline-block;
+    pointer-events: none;
+}
+
+.disabled {
+    color: gray;
+    cursor: not-allowed;
+    text-decoration: underline;
+}
+
+.customWidth {
+    width: auto;
+}
+
+.btn:hover {
+    background-color: #ffc500;
+}
+
+input[type='radio'] {
+    -webkit-appearance: none;
+}
+
+.progressBar {
+    padding: 0;
+}
+
+.modal-body {
+    position: relative;
+    flex: 1 1 auto;
+    padding: 1rem;
+    width: 26rem;
+}
+
+::ng-deep .swal-button--Cancel {
+    background-color: #CFCFCF;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    font-weight: 500;
+}
+
+::ng-deep .swal-button--Submit {
+    background-color: #114551;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    font-weight: 500;
+    color: #fff;
+}
+
+.m-btn {
+    color: #fff;
+    background-color: #198754;
+    border-color: #198754;
+}
+
+::ng-deep .tooltip-red {
+    background: #b71c1c;
+    font-size: 12px;
+}

@@ -1,0 +1,314 @@
+<div class="">
+    <!-- <div class="container-fluid hero">
+    <h1 class="d-flex justify-content-center title mb-0 responsiveHeading">
+      Water, Sanitisation & Hygiene
+    </h1>
+    <div class="logo d-flex justify-content-center align-items-center">
+      <img
+        src="../../../../assets/new_dashBord_ftr_hdr/slb/slb-dashboard-assets/logo.svg"
+        alt="logo"
+      />
+    </div>
+  </div>
+  <div class="container-fluid sec-splash">
+    <h1 class="splash-title mb-0 text-center">WASH</h1>
+    <h3 class="splash-subTitle mb-0 text-center">
+      Water, Sanitisation & Hygiene
+    </h3>
+    <p class="sc text-center">
+      Aim is to create a performance measurement and monitoring system, which
+      can be used for policy formulation and resource allocation at state and
+      local level.
+    </p>
+    <p class="sc mx-3 text-center customText">
+      PAS measures performance of each sector (water, sanitation, solid waste
+      and storm water drainage) across five themes and 32 key performance
+      indicators. These indicators are monitored by state and local governments.
+      Around 100 ‘drill-down’ indicators are also developed for better
+      understanding of key issues in service delivery and preparation of
+      performance improvement plans.
+    </p>
+  </div> -->
+    <div class="container-fluid">
+        <div class="row">
+            <app-front-panel [cardData]="revenueData" [data]="frontPanelData" [showDataAvailable]="showDataAvailable" style="padding: 0" [componentName]="'slbDB'"></app-front-panel>
+        </div>
+
+        <!-- <div class="row pt-3">
+      <div class="col-sm-12">
+        <div
+          class="d-a mx-auto mb-3"
+          [ngClass]="{ stickyClass: checkStickyValue == true }"
+        >
+          Data Availability - {{ nationalDataAvailability }}%
+        </div>
+      </div>
+    </div> -->
+
+    </div>
+    <div>
+        <h2 class="sbd-Title text-center mb-0">
+            Service Level Benchmark Performance
+        </h2>
+        <div class="sbd-national">
+            <div class="row mb-3 mt-2" style="margin-left: 0; margin-right: 0">
+                <div class="col-12 col-sm-12 col-md-6 stateMapContainer">
+                    <div *ngIf="!nationalLevelMap" class="skeletonWrapper">
+                        <app-pre-loader></app-pre-loader>
+                        <app-pre-loader></app-pre-loader>
+                        <app-pre-loader></app-pre-loader>
+                        <app-pre-loader></app-pre-loader>
+                    </div>
+                    <div id="districtMapContainer" [ngStyle]="{
+              visibility: currentStateInView ? 'visible' : 'hidden'
+            }"></div>
+                    <div class="stateMap analytics-map mb-2" [id]="'mapidd' + randomNumber" style="
+              background-image: url('../../../../assets/Layer\ 1.png') !important;
+            "></div>
+
+                    <div class="col-12 col-sm-12 bg-map">
+                        <div class="legends" style="display: block; z-index: 99; position: relative">
+
+                            <div class="map-reset w-100 text-center mb-3 mt-3" *ngIf="isMapOnMiniMapMode">
+                                <a type="button" style="text-decoration: none" (click)="resetNationalMap()">Reset Map To India</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6">
+          <div
+            *ngIf="isStateSlbActive || isCitySlbActive"
+            class="back-nav"
+            (click)="backToPreviousMode()"
+          >
+            Back to
+            {{ isStateSlbActive ? "National" : isCitySlbActive ? "State" : "" }}
+            Dashboard
+          </div>
+          <div class="row flex-column">
+            <div class="col-7 col-sm-12 mb-3 mt-3">
+              <ul
+                role="tablist"
+                class="nav nav-pills"
+                aria-label="Tabs"
+                style="justify-content: left"
+              >
+                <li class="nav-item">
+                  <a
+                    (click)="subFilterFn('ulbType')"
+                    role="tab"
+                    class="nav-link"
+                    [ngClass]="{ popActive: popBtn }"
+                    id="type"
+                    style="padding: 0.4rem 2rem; width: 12rem"
+                  >
+                    <span>ULB Type</span>
+                  </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a (click)="subFilterFn('popCat')" role="tab" class="nav-link" [ngClass]="{ popActive: !popBtn }" id="pop" style="padding: 0.4rem 2rem; width: 12rem">
+                                        <span>Population Category</span>
+                                    </a>
+                                </li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-12 col-md-6 col-sm-8 mt-2">
+                                <div class="row w-100">
+                                    <div class="col-lg-4 col-md-6 col-sm-6 mt-1">
+                                        <form [formGroup]="myForm" class="w-100">
+                                            <angular2-multiselect class="expo-drp-in" [data]="stateList" formControlName="stateId" [settings]="dropdownSettings" (onSelect)="onSelectingStateFromDropDown($event)" (onDeSelect)="onSelectingStateFromDropDown(null)">
+                                            </angular2-multiselect>
+                                        </form>
+                                    </div>
+                                    <!-- <ng-container > -->
+                                    <!-- <ng-container *ngIf="!isStateSlbActive && !isCitySlbActive"> -->
+                                    <div class="col-lg-3 col-md-6 col-sm-6 mt-1">
+                                        <select class="form-select" id="years" aria-label="Select Financial Year" (change)="getSelectedYear($event.target.value)">
+                    <option
+                      [value]="year"
+                      [selected]="year == selectedYear"
+                      *ngFor="let year of yearList"
+                    >
+                      {{ year }}
+                    </option>
+                  </select>
+                                    </div>
+                                    <!-- </ng-container> -->
+
+                                    <ng-container *ngIf="isStateSlbActive || isCitySlbActive">
+                                        <!-- Search for ULB Names -->
+                                        <div *ngIf="isStateSlbActive || isCitySlbActive" class="col-lg-3 col-md-6 col-sm-6 mt-1">
+                                            <form class="filter-form w-100">
+                                                <input type="text" placeholder="Search City Names" [formControl]="nationalFilter" [matAutocomplete]="auto" class="fl-input form-control w-100" style="height: 2.4rem" />
+                                                <div class="col-6 col-sm-12">
+                                                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                                                        <a *ngFor="
+                              let option of filteredOptions;
+                              let i = index
+                            " style="text-decoration: none">
+                                                            <mat-option (click)="getUlbData(option)" [value]="option?.name">
+                                                                <span style="font-size: 15px">
+                                {{ option?.name }}</span
+                              >
+                            </mat-option>
+                          </a>
+                        </mat-autocomplete>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="col-lg-1 col-md-6 col-sm-6 mt-1">
+                    <button (click)="resetNationalMap()" class="resetButton">Reset</button>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+            <!-- <div class="col-7 col-sm-8 col-md-4 mt-2 d-flex">
+              <ng-container>
+                <select
+                  class="form-select"
+                  id="years"
+                  aria-label="Select Financial Year"
+                  (change)="getSelectedYear($event.target.value)"
+                >
+                  <option
+                    [value]="year"
+                    [selected]="year == selectedYear"
+                    *ngFor="let year of yearList"
+                  >
+                    {{ year }}
+                  </option>
+                </select>
+              </ng-container>
+
+              <ng-container *ngIf="isStateSlbActive || isCitySlbActive">
+                <form class="filter-form mr-1 w-100">
+                  <div>
+                    <input
+                      type="text"
+                      placeholder="Search City Names"
+                      [formControl]="nationalFilter"
+                      [matAutocomplete]="auto"
+                      class="fl-input form-control w-100"
+                      style="height: 2.4rem"
+                    />
+                    <div class="col-6 col-sm-12">
+                      <mat-autocomplete
+                        autoActiveFirstOption
+                        #auto="matAutocomplete"
+                      >
+                        <a
+                          *ngFor="let option of filteredOptions; let i = index"
+                          style="text-decoration: none"
+                        >
+                          <mat-option
+                            (click)="getUlbData(option)"
+                            [value]="option?.name"
+                          >
+                            <span style="font-size: 10px">
+                              {{ option?.name }}</span
+                            >
+                          </mat-option>
+                        </a>
+                      </mat-autocomplete>
+                    </div>
+                  </div>
+                </form>
+              </ng-container>
+            </div> -->
+            <div class="table-responsive table-con rounded mt-4">
+              <div *ngIf="!showLoader">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th
+                        scope="col"
+                        *ngFor="let column of tableData?.columns"
+                        class="{{ column?.key }}"
+                      >
+                        {{ column?.display_name }}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let row of tableData?.rows | slice: 1">
+                      <td
+                        *ngFor="let column of tableData?.columns"
+                        class="{{ column?.key }}"
+                      >
+                        {{ row[column.key] }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div *ngIf="showLoader">
+                <app-pre-loader></app-pre-loader>
+                <app-pre-loader></app-pre-loader>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <ng-container *ngIf="isStateSlbActive || isCitySlbActive">
+        <div
+          class="container-cnt tab-content"
+          *ngIf="slbDashboardData?.subHeaders?.length > 0"
+          id="pills-tabContent"
+          style="padding: 0"
+        >
+          <div class="row">
+            <div class="col-sm-12">
+              <ul class="nav nav-pills2 mb-3" id="pills-tab" role="tablist">
+                <li
+                  *ngFor="
+                    let tab of slbDashboardData?.subHeaders;
+                    let i = index
+                  "
+                  class="pl-1"
+                  role="presentation"
+                >
+                  <button
+                    class="nav-link2 pd2"
+                    [ngClass]="{ active: i == 0 }"
+                    [id]="tab.name"
+                    data-bs-toggle="pill"
+                    [data-bs-target]="tab"
+                    type="button"
+                    role="tab"
+                    [aria-controls]="tab"
+                    (click)="changeTab($event, true)"
+                    value="{{ tab | json }}"
+                  >
+                    {{ tab.name }}
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <ng-container *ngIf="isStateSlbActive">
+          <app-state-filter-data
+            [data]="selectedSlbSubTab"
+            [stateServiceLabel]="isStateServiceLabel"
+            [showYearDropdown]="showYearDropdown"
+            [selectedYear]="selectedYear"
+          ></app-state-filter-data>
+          <!-- [selectedStateId]="stateId" -->
+        </ng-container>
+
+        <ng-container *ngIf="isCitySlbActive">
+          <app-slb-charts
+            [year]="selectedYear"
+            [cityId]="cityId"
+            [data]="selectedSlbSubTab"
+            [showYearDropdown]="showYearDropdown"
+          ></app-slb-charts>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+</div>

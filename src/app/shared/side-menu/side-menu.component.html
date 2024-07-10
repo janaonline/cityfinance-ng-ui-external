@@ -1,0 +1,93 @@
+<!-- <div class="side-menu-wrapper">
+  <h4 class="text-center">Menu</h4>
+  <div class="side-menu-content">
+    <mat-list role="option" class="p-0" *ngIf="contents.length">
+      <ng-container *ngFor="let link of contents">
+        <ng-container [ngSwitch]="link.type">
+          <ng-container *ngSwitchCase="'link'">
+            <mat-list-item class="side-menu-item"
+                           [routerLink]="link.route"
+                           routerLinkActive="active">
+              {{link.title}}
+            </mat-list-item>
+            <mat-divider></mat-divider>
+          </ng-container>
+          <ng-container *ngSwitchCase="'other'">
+            <div class="bg-black" matSubheader>{{link.title}}</div>
+            <mat-divider></mat-divider>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+    </mat-list>
+  </div>
+</div>
+ -->
+
+<div class="accordion mt-4">
+  <div class="card" *ngFor="let link of contents; let i = index">
+    <div
+      class="card-header"
+      id="headingOne"
+      data-bs-toggle="collapse"
+      [attr.data-bs-target]="'#collapse' + i"
+      aria-expanded="true"
+      aria-controls="collapseOne"
+      [innerHTML]="link.title"
+    ></div>
+
+    <div
+      [id]="'collapse' + i"
+      class="collapse"
+      [ngClass]="{ show: i === 0 || i === 1 }"
+      aria-labelledby="headingOne"
+      data-parent="#accordionExample"
+    >
+      <div class="card-body">
+        <div *ngFor="let subLink of link.subMenus; let j = index">
+          <a
+            class="link"
+            *ngIf="subLink.type === 'link'"
+            [routerLink]="subLink.route"
+            routerLinkActive="active"
+          >
+            {{ subLink.title }}</a
+          >
+
+          <div *ngIf="subLink.type === 'other'">
+            <div
+              class="nested-accordian link heading"
+              id="headingOne"
+              data-toggle="collapse"
+              [attr.data-target]="'#collapse' + i + j"
+              aria-expanded="true"
+              aria-controls="collapseOne"
+            >
+              {{ subLink.title }}
+            </div>
+
+            <div
+              [id]="'collapse' + i + j"
+              class="collapse nested-links"
+              [ngClass]="{ show: j === 0 }"
+              aria-labelledby="headingOne"
+              data-parent="#accordionExample"
+            >
+              <div class="card-body">
+                <div *ngFor="let KthsubLink of subLink.subMenus; let k = index">
+                  <a
+                    class="link"
+                    *ngIf="KthsubLink.type === 'link'"
+                    [routerLink]="KthsubLink.route"
+                    routerLinkActive="active"
+                  >
+                    {{ KthsubLink.title }}</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

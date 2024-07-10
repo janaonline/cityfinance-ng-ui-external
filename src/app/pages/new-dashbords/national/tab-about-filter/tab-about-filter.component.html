@@ -1,0 +1,84 @@
+<div class="container container-cnt" style="padding: 0">
+  <div
+    class="row"
+    style="margin: 0 auto"
+    [ngClass]="{ stickyClass: stickyValue == true }"
+  >
+    <ul role="tablist" class="nav nav-pills" aria-label="Tabs">
+      <li
+        class="nav-item"
+        role="button"
+        *ngFor="let item of data; let i = index"
+        [ngClass]="{ 'li-w-e': item?.name == 'Deficit Or Surplus' }"
+      >
+        <!-- [routerLink]="item?._id" -->
+        <a
+          (click)="activeTabFn(item, i)"
+          [routerLink]="item?._id"
+          role="tab"
+          routerLinkActive="active"
+          class="nav-link nav-m"
+          [id]="i"
+        >
+          <span>{{ item?.name }}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="container">
+  <div class="row m-0">
+    <div class="col-12 col-sm-12 ps-m py-2">
+      <p>{{ aboutTab }}</p>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <ul
+      class="nav nav-pills2 mb-3 ml-4"
+      style="justify-content: left; margin-left: 2%"
+    >
+      <li *ngFor="let item of activeFilter; let i = index">
+        <button
+          class="filterBtn"
+          (click)="nationalSubTab(item, i)"
+          [class.t-rev]="selectedIndex === i"
+        >
+          {{ item }}
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>
+<!-- </div> -->
+<!-- <div
+  class="container-cnt tab-content"
+  *ngIf="activeFilter.length > 0"
+  id="pills-tabContent"
+  style="padding: 0"
+>
+  <div class="row">
+    <div class="col-sm-12">
+      <ul class="nav nav-pills2 mb-3" id="pills-tab" role="tablist">
+        <li
+          *ngFor="let tab of activeFilter; let i = index"
+          class="nav-item pl-1"
+          role="presentation"
+        >
+          <button
+            class="nav-link2 pd2"
+            [ngClass]="{ active: i == 0 }"
+            [id]="tab.name"
+            type="button"
+            (click)="activeTabFn($event, true)"
+            value="{{ tab | json }}"
+          >
+            {{ tab }}
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div> -->
+<router-outlet></router-outlet>

@@ -1,0 +1,257 @@
+<div class="row mb-3 mt-2 mx-auto">
+  <div class="col-12 col-sm-12 col-md-5 stateMapContainer">
+    <!-- <div class="col-sm-12 col-md-12 col-lg-6 stateMapContainer"> -->
+    <div
+      *ngIf="!nationalLevelMap"
+      style="z-index: 1000 !important; opacity: 1"
+      class="spinner container-fluid d-flex justify-content-center align-items-center"
+    >
+      <!-- <h1>Loading...</h1> -->
+
+      <mat-spinner></mat-spinner>
+    </div>
+    <!-- <div
+      class="map-reset w-100 text-center mb-3 mt-3"
+      *ngIf="isMapOnMiniMapMode"
+      style="z-index: 10000"
+    >
+      <a
+        type="button"
+        style="text-decoration: none"
+        (click)="onSelectingStateFromDropDown(national)"
+        >Reset Map To India</a
+      >
+    </div> -->
+
+    <div
+      class="col-sm-12"
+      id="districtMapContainer"
+      [ngStyle]="{ visibility: selectedStateCode ? 'visible' : 'hidden' }"
+    >
+      <!-- <p class="text-center" *ngIf="currentStateInView">
+      Click on any ULB to view their data or Click on INDIA map to go back.
+    </p> -->
+    </div>
+    <div
+      class="stateMap analytics-map"
+      [id]="'mapidd' + randomNumber"
+      style="
+        background-image: url('../../../../assets/Layer\ 1.png') !important;
+      "
+    ></div>
+    <!-- </div> -->
+    <!-- <div *ngIf="!nationalLevelMap" class="skeletonWrapper">
+      <app-pre-loader></app-pre-loader>
+      <app-pre-loader></app-pre-loader>
+      <app-pre-loader></app-pre-loader>
+      <app-pre-loader></app-pre-loader>
+    </div>
+    <div
+      id="districtMapContainer"
+      [ngStyle]="{ visibility: currentStateInView ? 'visible' : 'hidden' }"
+    ></div>
+    <div
+      class="stateMap analytics-map mb-2"
+      [id]="'mapidd' + randomNumber"
+      style="
+        background-image: url('../../../../assets/Layer\ 1.png') !important;
+      "
+    ></div> -->
+
+    <div class="col-12 col-sm-12 bg-map">
+      <div
+        class="legends"
+        style="display: block; z-index: 101; position: relative"
+      >
+        <!-- <ul
+          class="d-flex p-0 justify-content-center align-items-start flex-wrap"
+        >
+          <li
+            class="d-flex align-items-center px-3"
+            *ngFor="let item of mapLabels"
+          >
+            <div
+              style="width: 20px; height: 16px; display: inline-block"
+              [style.background-color]="item.color"
+            ></div>
+            <span class="ps-2">{{ item.name }}</span>
+          </li>
+        </ul> -->
+        <div
+          class="map-reset w-100 text-center mb-3 mt-3"
+          *ngIf="isMapOnMiniMapMode"
+        >
+          <a
+            type="button"
+            style="text-decoration: none"
+            (click)="onSelectingStateFromDropDown(national)"
+            >Reset Map To India</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-sm-12 col-md-7" style="margin-top: 3%">
+    <div class="row" style="align-items: baseline">
+      <div class="col-12 col-sm-12">
+        <div class="heading mb-3 dataAvailability" *ngIf="!showLoader">
+          {{ AvailabilityTitle }} Data Availability -
+          {{ dataAvailabilityvalue }}%
+        </div>
+      </div>
+      <div class="col-4 col-sm-4 col-md-4">
+        <div class="input-group inp-grp">
+          <form [formGroup]="myForm" class="w-100">
+            <angular2-multiselect
+              class="expo-drp-in"
+              [data]="stateList"
+              formControlName="stateId"
+              [settings]="dropdownSettings"
+              (onSelect)="onSelectingStateFromDropDown($event)"
+              (onDeSelect)="onSelectingStateFromDropDown(null)"
+            >
+            </angular2-multiselect>
+          </form>
+        </div>
+      </div>
+      <div class="col-4 col-sm-4 col-md-4 ps-3">
+        <select
+          [(ngModel)]="selectedYear"
+          class="form-select"
+          id="years"
+          (change)="selectFinancialYear($event)"
+        >
+          <option *ngFor="let item of financialYearList" value="{{ item }}">
+            {{ item }}
+          </option>
+          <!-- <option value="2019-20">2019-20</option>
+          <option value="2018-19">2018-19</option>
+          <option value="2017-18">2017-18</option> -->
+        </select>
+      </div>
+      <div class="col-4 col-sm-4 col-md-4 ps-3">
+        <button class="searchButton searchButtonResponsive" (click)="resetFilter()">Reset</button>
+      </div>
+    </div>
+    <!-- <div class="container-cnt" style="padding: 0"> -->
+    <div class="row">
+      <div class="col-12 d-flex">
+        <div class="col-sm-12 col-md-10 mb-3 mt-3">
+          <ul
+            role="tablist"
+            class="nav nav-pills"
+            aria-label="Tabs"
+            style="justify-content: left"
+          >
+            <li class="nav-item" style="width: 11rem;">
+              <a
+                (click)="subFilterFn('popCat')"
+                role="tab"
+                class="nav-link"
+                [ngClass]="{ popActive: popBtn }"
+                id="pop"
+                style="padding: 0.4rem 2rem; width: 12rem"
+              >
+                <span>Population Category</span>
+              </a>
+            </li>
+            <li class="nav-item" style="width: 11rem;">
+              <a
+                (click)="subFilterFn('ulbType')"
+                role="tab"
+                class="nav-link"
+                [ngClass]="{ popActive: !popBtn }"
+                id="type"
+                style="padding: 0.4rem 2rem; width: 12rem"
+              >
+                <span>ULB Type</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- <div class="col-sm-12 col-md-2">
+          <button class="searchButton" (click)="resetFilter()">Reset</button>
+        </div> -->
+      </div>
+    </div>
+    <!-- </div> -->
+    <div class="row">
+      <div class="col-sm-12" *ngIf="!showLoader">
+        <div class="table-responsive table-con" *ngIf="tableData">
+          <table class="table">
+            <thead>
+              <tr>
+                <th
+                  scope="col"
+                  *ngFor="let column of tableData?.columns"
+                  class="{{ column?.key }}"
+                >
+                  {{ column?.display_name }}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of tableData?.rows | slice:1">
+                <td
+                  *ngFor="let column of tableData?.columns"
+                  class="{{ column?.key }}"
+                >
+                  {{ row[column.key] }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div
+          *ngIf="!tableData"
+          style="text-align: center; margin-top: 30px; margin-bottom: 30px"
+        >
+          <img
+            src="../../../../assets/images/sad.svg"
+            height="82px"
+            width="89px"
+          />
+          <div style="color: #1e44ad; font-size: 22px; font-weight: 600">
+            No Data Found for chosen options
+          </div>
+          <p style="color: #6e7281; font-size: 16px">
+            {{ notFoundMessage }}
+          </p>
+        </div>
+      </div>
+      <div *ngIf="showLoader" class="preloader-wrapper">
+        <app-pre-loader></app-pre-loader>
+      </div>
+      <div class="col-12" *ngIf="currentStateId">
+        <button
+          *ngIf="!showLoader"
+          (click)="viewDashboard()"
+          class="searchButton"
+        >
+          View State Dashboard
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row my-5">
+    <div class="m-auto" style="width: 60%">
+      You can also download the source data in excel format
+      <button
+        class="cursor-pointer bottomDownloadButton py-2 downloadData"
+        (click)="downloadTableData()"
+      >
+        <img
+          src="../../../../assets/CIty_detail_dashboard – 3/2867888_download_icon.svg"
+          height="13px"
+          width="13px"
+          class="m-1"
+        />Download Data
+      </button>
+    </div>
+  </div>
+</div>

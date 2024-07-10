@@ -1,0 +1,34 @@
+<div class="container-fluid" style="padding-bottom: 5%">
+  <div class="row d-flex">
+    <div class="col-sm-2 col-lg-2 col-md-2" *ngIf="showSidebar">
+      <app-side-menu [content]="SideBarContents"></app-side-menu>
+    </div>
+    <div 
+      style="overflow: hidden" [ngClass]="{'sidebarClass' : showSidebar}"
+    >
+      <h3 class="text-center mt-4" *ngIf="loggedInUserType !== userTypes.USER">
+        Welcome: {{ userLoggedInDetails.name }},
+        <span
+          *ngIf="
+            loggedInUserType === userTypes.ADMIN ||
+            loggedInUserType === userTypes.MoHUA ||
+            loggedInUserType === userTypes.PARTNER
+          "
+        >
+          {{ userLoggedInDetails.role }}
+        </span>
+        <span
+          *ngIf="
+            states &&
+            (loggedInUserType === userTypes.STATE ||
+              loggedInUserType === userTypes.ULB)
+          "
+        >
+          {{ states[userLoggedInDetails["state"]]?.name }}
+        </span>
+      </h3>
+
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,88 @@
+.four-slb { 
+    thead {
+        tr {
+            background-color: #047474; 
+            color: #FFFFFF;
+            text-align: center;
+            
+        }
+        th:first-child{
+            width: 20%;
+        }
+        th{
+            vertical-align: middle;
+            
+        }
+        
+    }
+    tbody{
+        td {
+            text-align: center;
+            vertical-align: middle;
+        }
+        // tr :first-child{
+        //     text-align: left !important;
+        // }
+    }
+}
+.lineItem-highlited {
+    thead, tbody, tfoot, tr, td, th {
+        border-color: inherit;
+        border-style: solid;
+         border-width: 2px; 
+    }
+    th {
+        color: #047474;
+        text-align: center;
+        vertical-align: middle;
+        
+    }
+    .marks{
+            color: #047474 !important; 
+            font-weight: bold;
+         }
+    td {
+        text-align: center;
+    }
+   
+
+}
+
+:host {
+    --greenish: #047474;
+    textarea:disabled {
+        border: none;
+        // background: transparent;
+    }
+    .data-input {
+        min-width: 130px;
+    }
+    .input-group-addon {
+        background: var(--greenish);
+        color: white;
+        padding: 6px 8px;
+        border: 1px solid var(--greenish);
+        display: inline-block;
+        width: 52px;
+        font-size: 12px;
+    }
+    
+    .form-control {
+        border-color: var(--greenish);
+        width: 70px;
+        display: inline-block;
+        font-size: 14px;
+    }
+   
+    button.btn-primary {
+        outline: none;
+    }
+ 
+}
+.serviceLevelIndicators {
+    min-width: 200px;
+    text-align: left !important;
+}
+.wghtd_score {
+    text-align: center !important;
+  }

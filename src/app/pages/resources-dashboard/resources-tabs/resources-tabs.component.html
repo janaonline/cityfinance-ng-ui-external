@@ -1,0 +1,16 @@
+<!-- <tabset type="pills">
+    <tab heading="Pills 1">Pills content 1</tab>
+    <tab heading="Pills 2">Pills content 2</tab>
+</tabset> -->
+<ul role="tablist" class="nav nav-pills" aria-label="Tabs">
+    <li class="nav-item" *ngFor="let item of data" (click)="subscribeValue(item)">
+        <a [routerLink]="item?.link" role="tab" routerLinkActive="active" class="nav-link" id="">
+            <span>{{ item?.name }} </span>
+        </a>
+    </li>
+</ul>
+
+<!-- [ngClass]="{
+  'li-w-e': item?.name == 'E-Learning Modules',
+  'li-w-b': item?.name == 'Best Practices'
+}" -->

@@ -1,0 +1,58 @@
+<div class="container-fluid">
+  <div class="col-sm-12 col-md-9 pl-1" *ngIf="!widgetMode">
+    <!-- two buttons -->
+    <button
+      style="margin-left: 2pc"
+      class="btn py-1"
+      (click)="ulbFunction(1)"
+      [ngClass]="ulbTab ? 'selected' : 'deSelected'"
+    >
+      ULB Type
+    </button>
+    <button
+      style="margin-left: 2%"
+      class="btn py-1"
+      (click)="ulbFunction(2)"
+      [ngClass]="populationTab ? 'selected' : 'deSelected'"
+    >
+      ULB Population
+    </button>
+    <!-- return to normal -->
+    <button (click)="ulbFunction(3)" class="returnButton">
+      Return to State Average
+    </button>
+  </div>
+
+  <div class="col-12 mt-3" *ngIf="!ulbTab && !populationTab">
+    <app-revenuechart
+      [ChartOptions]="chartOptions"
+      [chartData]="!ulbValVar ? chartData : ''"
+      [multipleDoughnutCharts]="ulbValVar ? finalMultipleDoughnut : ''"
+      [chartId]="chartId"
+      [chartTitle]="chartTitle"
+      [singleDoughnutChart]="ulbValVar ? false : true"
+      [multipleCharts]="ulbValVar"
+      [selectedulb]="SelecetedUlb"
+      [stateChart]="true"
+      [headerActions]="!widgetMode ? headerActions : iFrameHeaderActions"
+      [getChartPayload]="getChartPayload"
+      [embeddedRoute]="embeddedRoute"
+    ></app-revenuechart>
+  </div>
+
+  <div class="col-12 mt-3" *ngIf="ulbTab || populationTab">
+    <app-revenuechart
+      [multipleCharts]="multipleChartShow"
+      [multipleDoughnutCharts]="finalMultipleDoughnut"
+      (dounghnuChartLabels)="getChartLabel($event)"
+      [chartTitle]="multipleTitle"
+      [selectedulb]="SelecetedUlb"
+      [stateChart]="true"
+      [headerActions]="!widgetMode ? headerActions : iFrameHeaderActions"
+      [getChartPayload]="getChartPayload"
+      [embeddedRoute]="embeddedRoute"
+    ></app-revenuechart>
+  </div>
+
+  <div></div>
+</div>

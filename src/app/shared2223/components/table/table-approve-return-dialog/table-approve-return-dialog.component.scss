@@ -1,0 +1,122 @@
+.card {
+    height: auto;
+    background-color: #FFFFFF;
+    padding: 15px 15px 15px 15px;
+    margin: auto;
+}
+
+.row {
+    align-items: center;
+}
+
+.errorMessege {
+    color: #dc3545;
+    font-size: smaller;
+}
+
+.filePadding {
+    // padding-left: 23px;
+    font-style: italic;
+}
+
+.textClass {
+    text-align: center;
+}
+
+.textEnd {
+    text-align: end;
+}
+
+.rightText {
+    text-align: end;
+}
+
+.formShadow {
+    box-shadow: 2px 4px 5px 4px #cecece;
+    padding: 2%;
+}
+
+.iconCenter {
+    text-align: center;
+}
+
+.fontStyle {
+    font-weight: 500;
+}
+
+.marginClass {
+    margin-top: 4%;
+}
+
+.btnUpload:hover {
+    background-color: #ffc500;
+}
+
+.btnUpload:active {
+    background-color: #ffc500;
+}
+
+.errorText {
+    margin-top: 3%;
+}
+
+.image-upload>input {
+    display: none;
+}
+
+.image-upload img {
+    cursor: pointer;
+}
+
+.fadedClass {
+    pointer-events: none;
+    background-color: #059b9a;
+    color: white;
+    opacity: 0.5;
+}
+
+.customDisable {
+    cursor: not-allowed;
+    display: inline-block;
+    pointer-events: none;
+}
+
+.activeClassNo {
+    background-color: #c9c9c9;
+}
+
+.activeClassNoBottom {
+    background-color: #c9c9c9;
+}
+
+.activeClassBottom {
+    // background-color: #c9c9c9;
+    background-color: #ffc500;
+}
+
+.disabled {
+    color: gray;
+    cursor: not-allowed;
+    text-decoration: underline;
+}
+
+.r-w-f {
+    width: 97%;
+    margin: auto;
+}
+
+.r-l {
+    align-items: center;
+}
+
+.modal-body {
+    position: relative;
+    flex: 1 1 auto;
+    padding: 1rem;
+    width: 26rem;
+}
+
+.h-l {
+    font-size: 16px;
+    font-weight: 500;
+}

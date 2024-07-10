@@ -1,0 +1,46 @@
+.wh-s {
+    color: white;
+    font-size: 14px;
+}
+
+.btn-primary {
+    font-size: 14px;
+}
+
+.btn-check:focus+.btn-primary,
+.btn-primary:focus {
+    box-shadow: none;
+}
+
+.pdf-n {
+    font-size: 14px;
+}
+
+.q-n {
+    font-weight: 500;
+}
+
+.err-text {
+    color: red;
+    display: block;
+}
+
+.err-i {
+    border: 1px solid red;
+}
+
+.form-control {
+    // width: 96%;
+    height: auto;
+}
+
+.cross {
+    pointer-events: none;
+}
+
+::ng-deep .tooltip-red {
+    font-size: 16px !important;
+    background-color: #000000 !important;
+    color: #FFFFFF !important;
+    padding: 1rem !important;
+}

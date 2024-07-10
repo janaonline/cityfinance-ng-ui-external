@@ -1,0 +1,29 @@
+<div class="bg-img" *ngIf="loggedInUserType;" style="padding: 0;">
+    <div class="container-fluid" style="margin-top: 0;">
+        <div class="row bg">
+            <div class="col-sm-12 col-md-12 col-lg-12 text-center" style="margin-bottom: 4rem; margin-top: 3.125rem;">
+                <h3 class="txt-header" style="opacity: 100%; font-size: 35px;">
+                    Welcome to 15th Finance Commission Grant Management System </h3>
+                <h3 *ngIf="loggedInUserType == USER_TYPE.ULB" style="opacity: 100%; font-size: 35px;">{{ulbName}}</h3>
+                <h3 *ngIf="loggedInUserType == USER_TYPE.STATE" style="opacity: 100%; font-size: 35px;">{{stateName}}</h3>
+                <h3 *ngIf="loggedInUserType == USER_TYPE.ADMIN
+                    || loggedInUserType == USER_TYPE.MoHUA
+                    || loggedInUserType == USER_TYPE.PATNER" style="opacity: 100%; font-size: 35px;">{{ulbName}}</h3>
+
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-12 text-center">
+                <h3 style="margin-bottom: 2rem; opacity: 100%; font-size: 35px;">Select Financial Year</h3>
+                <div class="row">
+                    <div class="col-sm-12 text-center">
+                        <div *ngFor="let item of yearList" class="" style="display: inline-block;">
+                            <button type="button" class="btn" style="margin-right: 2rem;" routerLink="{{item.url}}" (click)="setId(item?.id)">{{item.year}} </button>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+</div>

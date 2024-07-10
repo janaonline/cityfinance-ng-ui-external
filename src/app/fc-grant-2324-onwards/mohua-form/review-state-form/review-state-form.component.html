@@ -1,0 +1,37 @@
+<div class="container-fluid pd-c">
+    <div class="row mb-3 mt-3">
+        <div class="col-sm-12 header2">
+            {{title}}
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-sm-12">
+            <label for="form">Select Form:</label>
+            <select [(ngModel)]="formId" (ngModelChange)="setFormId($event)" name="form" id="form" class="mt-1 dropdown ms-3">
+          <option *ngFor="let element of data" [value]="element.formId">
+              {{element.name}}
+          </option>
+        </select>
+        </div>
+    </div>
+    <div class="row" *ngIf="formId != sfcFormId && formId != pTaxFormId">
+        <div class="col-sm-12" *ngIf="data?.length">
+            <app-table [dropdownData]="data" [isUa]="isUa" [formId]="formId" [state_id_i]="stateId"
+             [tableName]="reviewTableName" [designYear]="selectedYearId" [formBaseUrl]="formBaseUrl" [endPoint]="'reviewForms'"></app-table>
+        </div>
+    </div>
+    <div class="row mt-4 mb-m" *ngIf="formId == sfcFormId || formId == pTaxFormId">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body" *ngIf="formId == sfcFormId">
+                    State Finance Commission Notification Form was part of 15th FC 2022-23 Module,
+                     please <a  [routerLink]="lastYearReviewRoutes" [queryParams]="{formId: sfcFormIdPreYear}" >click here</a> to review last year form. 
+                </div>
+                <div class="card-body" *ngIf="formId == pTaxFormId">
+                    Property tax floor rate Notification Form was part of 15th FC 2022-23 Module,
+                     please <a  [routerLink]="lastYearReviewRoutes" [queryParams]="{formId: pTaxFormIdPreYear}" >click here</a> to review last year form. 
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

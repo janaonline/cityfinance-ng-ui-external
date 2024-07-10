@@ -1,0 +1,17 @@
+.btn-outline-primary:hover {
+    color: inherit !important;
+    text-decoration: none;
+}
+
+.btn-check:checked+.btn-outline-primary {
+    color: inherit;
+    background-color: inherit;
+    border-color: inherit;
+}
+
+.btn {
+    font-size: 11px;
+}
+.approve-btn {
+    margin-right: 8px;
+}

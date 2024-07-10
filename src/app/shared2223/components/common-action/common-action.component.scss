@@ -1,0 +1,223 @@
+.card {
+    // width: 96%;
+    width: 100%;
+    height: auto;
+    margin-bottom: 2rem !important;
+    background-color: #FFFFFF;
+    box-shadow: 2px 4px 5px 4px #cecece;
+    padding: 15px 15px 15px 15px;
+    margin: auto;
+}
+
+.heading {
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.errorMessege {
+    color: #dc3545;
+    font-size: smaller;
+}
+
+.filePadding {
+    // padding-left: 23px;
+    font-style: italic;
+}
+
+.row {
+    align-items: center;
+}
+
+.textClass {
+    text-align: center;
+}
+
+.textEnd {
+    text-align: end;
+}
+
+.rightText {
+    text-align: end;
+}
+
+.formShadow {
+    box-shadow: 2px 4px 5px 4px #cecece;
+    padding: 2%;
+}
+
+.iconCenter {
+    text-align: center;
+}
+
+.fontStyle {
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.image-upload>input {
+    display: none;
+}
+
+.btnUpload:hover {
+    background-color: #ffc500;
+}
+
+.btnUpload:active {
+    background-color: #ffc500;
+}
+
+.btnUpload:hover {
+    background-color: #ffc500;
+}
+
+.btnUpload:active {
+    background-color: #ffc500;
+}
+
+.errorText {
+    margin-top: 3%;
+}
+
+.card-body {
+    padding: 5px 8px;
+    height: auto;
+}
+
+.uplod_label {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.image-upload>input {
+    display: none;
+}
+
+.block {
+    background-color: #FFFFFF;
+    //   margin-top: 4%;
+    margin-top: 1rem;
+}
+
+.image-upload img {
+    cursor: pointer;
+}
+
+.activeClass {
+    background-color: #c9c9c9;
+}
+
+.disableInputs {
+    pointer-events: none;
+}
+
+.greyInputs {
+    pointer-events: none;
+    background-color: #c9c9c9;
+    color: black;
+}
+
+.fadedClass {
+    pointer-events: none;
+    background-color: #059b9a;
+    color: white;
+    opacity: 0.5;
+}
+
+.disabled {
+    color: gray;
+    cursor: not-allowed;
+ //   text-decoration: underline;
+}
+
+.btn-r {
+    background-color: red;
+    color: #FFFFFF;
+}
+
+.customApprove {
+    border-radius: 8px !important;
+    margin-right: 1rem;
+    background-color: #75fdbe;
+    color: black;
+}
+
+.customReturn {
+    border-radius: 8px !important;
+    background-color: rgb(255, 194, 194);
+    color: black;
+}
+
+.customApproveActive {
+    background-color: green;
+    color: #fff
+}
+
+.customReturnActive {
+    background-color: rgb(250, 37, 37);
+    color: #fff
+}
+
+.btn-a {
+    background-color: green;
+    color: #FFFFFF;
+}
+
+.customWidth {
+    width: auto;
+}
+
+.btn:hover {
+    background-color: #ffc500;
+}
+
+.customButtonClass {
+    border-radius: 6px;
+    padding: 0.3rem 1rem;
+    border: none
+}
+
+.r-w-f {
+    width: 97%;
+    margin: auto;
+}
+
+.r-l {
+    align-items: center;
+}
+
+.f-url {
+    font-size: 14px;
+}
+
+.constitutedValue {
+    background-color: #ffc500;
+}
+
+.modal-body {
+    position: relative;
+    flex: 1 1 auto;
+    padding: 1rem;
+    width: 26rem;
+}
+
+.dis-cls {
+    pointer-events: none;
+   // background-color: #e9ecef !important;
+     opacity: .8;
+}
+
+.disGray {
+    background-color: #e9ecef;
+    color: #000
+}
+
+::ng-deep .tooltip-red {
+    background: #b71c1c;
+    font-size: 12px;
+}
+
+.app-seq {
+    color: #605f5f !important;
+    cursor: not-allowed;
+    background: #f3ebe0 !important;
+}

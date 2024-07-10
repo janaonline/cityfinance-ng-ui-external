@@ -1,0 +1,709 @@
+<div class="row header">
+    <!-- <div class="col header1" style="text-align: center;">Welcome Agra Municipality, Uttar Pradesh</div> -->
+
+    <div class="row m-ut-he">
+        <div class="col-sm-8 col-lg-8 col-md-8 header2">Detailed Utilisation Report</div>
+
+        <div class="col-sm-4 col-md-4 col-lg-4 prevBtnDiv text-end">
+            <!-- (click)="onNewPre()" -->
+            <!-- (click)="previewClicked()" -->
+            <button type="button" class="btn btn-primary" id="prevBtn" (click)="previewClicked()">PREVIEW</button>
+        </div>
+    </div>
+
+    <div class="col-sm-12">
+        <div class="header3">
+            <p style="color: #000000;
+              font-weight: 600;">
+                Detailed Utilisation report in respect of 15<sup>th</sup> finance commission tied grants for year
+            </p>
+            <select class="btnYear d-input" style="border-radius: 4px; font-weight: 500;" [disabled]="isDisabled">
+                <!-- formControlName="grantsYear" -->
+                <option value="2021-22">2020-21</option>
+            </select>
+
+            <!-- <p>
+                  (To be submitted by State in case of Million Plus Cities/UAS and by cities/ ULBs through State in case of Non Million Plus Cities )
+              </p> -->
+        </div>
+    </div>
+
+
+</div>
+
+<div class="card" style="background-color: #F7F7F7;">
+    <form [formGroup]="utilizationForm" *ngIf="utilizationForm">
+        <div class="card-body form-group">
+
+            <!-- <div class="row" style="vertical-align: inherit;">
+                <div class="col-lg-6">
+                    <label for="" class="labelField">State Name</label>
+
+                </div>
+                <div class="col-lg-6">
+                    <input type="text" class="form-control d-input" disabled formControlName="stateName">
+                </div>
+
+            </div> -->
+            <div class="row">
+                <div class="col-lg-6">
+                    <label for="" class="labelField">Name of MPC/UA/NMPC</label>
+                    <!-- <input type="text" class="form-control d-input" formControlName="mpcLabel"> -->
+
+                </div>
+                <div class="col-lg-6">
+                    <input type="text" class="form-control d-input" disabled formControlName="ulb">
+                </div>
+
+            </div>
+
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <label for="" class="labelField">Type of grant</label>
+                    <!-- <input type="text" class="form-control d-input" formControlName="grantTypeLabel"> -->
+
+                </div>
+                <div class="col-lg-6">
+                    <input type="text" class="form-control d-input" disabled formControlName="grantType">
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+<form *ngIf="utilizationReport" [formGroup]="utilizationReport" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+        <div class="card" style="background-color: #F7F7F7;">
+            <div class="card-body" formGroupName="grantPosition">
+                <p style="margin-left: 5px; font-weight: 500;">15<sup>th</sup> FC Tied Grant Status for the Financial Year 2020-21<span style="color: red;">*</span></p>
+
+                <div class="row">
+                    <div class="col-lg-7">
+                        <label for="" class="labelField">i. Unutilised Tied Grants from previous installment (INR in
+                            lakhs)
+                       <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Please enter the balance amount brought forward from the previous instalment." matTooltipPosition="above" style="float: right;">
+                        <img src="../../../../assets/ticks/info_black_18dp.svg">
+                       </span>
+                        </label>
+                        <!-- <input type="text" class="form-control d-input" formControlName="prevInstallLabel"> -->
+
+                    </div>
+                    <div class="col-lg-5 pointer-events-none">
+                        <input disabled="true" class="form-control inputfield d-input d-p" [ngStyle]="{'border':(isSubmitted == true && utiReportFormControl.grantPosition.controls.unUtilizedPrevYr.errors?.required) ? '1px solid red' : '' }" (change)="calAmount('unUtilizedPrevYr',$event)"
+                            formControlName="unUtilizedPrevYr" appTwoDigitDecimaNumber>
+                        <span class="text-danger" *ngIf="(utiReportFormControl.grantPosition.controls.unUtilizedPrevYr.touched || submitted) &&
+                        utiReportFormControl.grantPosition.controls.unUtilizedPrevYr.errors?.required" style="margin-left: 10px;">
+                            Required*
+                        </span>
+
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-lg-7">
+                        <label for="" class="labelField">ii. 15<sup>th</sup> F.C. Tied grant received for the year
+                            (1st & 2nd installment taken together) (INR in lakhs)
+
+                            <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="In case, the second installment for FY 2020-21 is received in the next financial year, ie. FY 2021-22, please write the full amount with respect to allocated grant for FY 2020-21." matTooltipPosition="above" style="float: right;">
+                                <img src="../../../../assets/ticks/info_black_18dp.svg">
+                               </span> </label>
+                        <!-- <input type="text" class="form-control d-input" formControlName="grantRecLabel"> -->
+
+                    </div>
+                    <div class="col-lg-5">
+                        <input class="form-control inputfield" [ngStyle]="{'border':(isSubmitted == true && utiReportFormControl.grantPosition.controls.receivedDuringYr.errors?.required)? '1px solid red' : '' }" (change)="calAmount('receivedDuringYr')" formControlName="receivedDuringYr"
+                            appTwoDigitDecimaNumber>
+                        <span class="text-danger" *ngIf="(utiReportFormControl.grantPosition.controls.receivedDuringYr.touched || submitted) &&
+                       utiReportFormControl.grantPosition.controls.receivedDuringYr.errors?.required" style="margin-left: 10px;">
+                            Required*
+                        </span>
+
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-lg-7">
+                        <label for="" class="labelField">iii. Expenditure incurred during the year i.e. as on 31st March
+                            2021 from Tied grant (INR in
+                            lakhs)
+                            <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="The total expenditure in the component wise grants must not exceed the amounts of grant received." matTooltipPosition="above" style="float: right;">
+                                <img src="../../../../assets/ticks/info_black_18dp.svg">
+                               </span>
+                        </label>
+                        <!-- <input type="text" class="form-control d-input" formControlName="expendLabel"> -->
+
+                    </div>
+                    <div class="col-lg-5">
+                        <input class="form-control inputfield" [ngStyle]="{'border':(isSubmitted == true && utiReportFormControl.grantPosition.controls.expDuringYr.errors?.required)? '1px solid red' : '' }" (change)="calAmount('expDuringYr')" formControlName="expDuringYr" appTwoDigitDecimaNumber>
+                        <span class="text-danger" *ngIf="(utiReportFormControl.grantPosition.controls.expDuringYr.touched || submitted) &&
+                       utiReportFormControl.grantPosition.controls.expDuringYr.errors?.required" style="margin-left: 10px;">
+                            Required*
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-7">
+                        <label for="" class="labelField" style="background-color: #26A1A1;
+                          color: #ffff;">Closing balance at the end of year (INR in lakhs)( i + ii - iii ) </label>
+                        <!-- <input type="text" class="form-control clrInput" formControlName="closing_bal"> -->
+
+                    </div>
+                    <div class="col-lg-5">
+                        <!-- <input type="text" class="form-control clrInput" formControlName="closing_bal"> -->
+                        <label for="" class="labelField" style="background-color: #26A1A1;
+                          color: #ffff; height: 28px; padding: 4px 10px;" #f>{{totalclosingBal | number : '.0-2'
+                            }}</label>
+                        <div class="" *ngIf="totalclosingBal < 0;" style="margin-left: 8px; color: red;">
+                            Closing Balance should be greater than 0.
+                        </div>
+                    </div>
+
+                    <!-- <span *ngIf=>fi</span> -->
+
+                </div>
+
+            </div>
+        </div>
+        <div class="card" style="background-color: #F7F7F7;">
+
+            <div class="card-body" style="margin-bottom: 20px;">
+                <p style="margin-left: 5px; font-weight: 500;">Component Wise Utilisation of Tied grants as on 31st March 2021
+                    <span style="color: red;">*</span>
+                    <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Information regarding utilization of the tied grants during the year, i.e. on 31st March 2021 has to be filled." matTooltipPosition="above">
+                        <img src="../../../../assets/ticks/info_black_18dp.svg">
+                       </span>
+                </p>
+                <!-- water management table -->
+                <div class="card-body" style="margin-bottom: 20px;">
+                    <p style="margin-left: 5px; font-weight: 500;">Water Management (WM)</p>
+                    <div class="table-responsive">
+                        <table class="table custom-position tableStriped">
+                            <thead>
+                                <tr class="thHeader">
+                                    <th scope="col">S.No</th>
+                                    <th scope="col">Sector</th>
+                                    <th scope="col">Total Tied Grant Utilised on WM(INR in lakhs) As of 31st March 2021<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Total 15th FC tied grant utilized during the year as on 31st March 2021. The outlay of the tied grant in the total project cost may be different. Only the amount spent out of the envisioned XV FC tied grant has to be filled."
+                                            matTooltipPosition="above">
+                                        <img src="../../../../assets/ticks/info_black_18dp.svg">
+                                       </span> </th>
+                                    <th scope="col">Number of Projects Undertaken</th>
+                                    <th scope="col">Total Project Cost Involved(INR in lakhs)<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="The total project cost for all project combined, as per DPR, to be mentioned. For Ex: if there are two projects, one for 100 Cr and another for 50 Cr, then combined cost i.e. 150 Cr will be entered in the total project cost."
+                                            matTooltipPosition="above">
+                                        <img src="../../../../assets/ticks/info_black_18dp.svg">
+                                       </span> </th>
+
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="utilizationReport['controls']['categoryWiseData_wm']['controls'].length > 0" formArrayName="categoryWiseData_wm">
+                                <!-- *ngFor="let dynamic of dynamic_td; let i = index;"   utilizationTable -->
+                                <tr *ngFor="let outputRow of tabelRows_WMcategory.controls; let rowIndex_wm=index" [formGroupName]="rowIndex_wm" style="text-align: center; vertical-align: inherit;">
+                                    <td class="t-i">
+                                        <span>{{1+rowIndex_wm}}</span>
+                                    </td>
+                                    <td>
+                                        <input style="width:20rem;cursor:not-allowed" formControlName="category_name" class="t-i" disabled="true" value="{{outputRow.controls.category_name.value}}" (mouseout)="errorDisplayExp=false">
+                                    </td>
+                                    <td class="pos-td">
+                                        <input class="t-i form-control inputfield" formControlName="grantUtilised" appTwoDigitDecimaNumber>
+
+                                    </td>
+                                    <td>
+                                        <input class="t-i form-control inputfield" formControlName="numberOfProjects" appTwoDigitDecimaNumber>
+                                    </td>
+                                    <td>
+                                        <input class="t-i form-control " formControlName="totalProjectCost" appTwoDigitDecimaNumber>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+
+
+                </div>
+                <!-- solid waste management Table -->
+                <div class="card-body" style="margin-bottom: 20px;">
+                    <p style="margin-left: 5px; font-weight: 500;">Solid Waste Management (SWM)</p>
+                    <div class="table-responsive">
+                        <table class="table custom-position tableStriped">
+                            <thead>
+                                <tr class="thHeader">
+                                    <th scope="col">S.No</th>
+                                    <th width="20%" scope="col">Sector</th>
+                                    <th scope="col">Total Tied Grant Utilised on SWM(INR in lakhs) As of 31st March 2021<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Total 15th FC tied grant utilized during the year as on 31st March 2021. The outlay of the tied grant in the total project cost may be different. Only the amount spent out of the envisioned XV FC tied grant has to be filled."
+                                            matTooltipPosition="above">
+                                        <img src="../../../../assets/ticks/info_black_18dp.svg">
+                                       </span> </th>
+                                    <th scope="col">Number of Projects Undertaken</th>
+                                    <th scope="col">Total Project Cost Involved(INR in lakhs)<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="The total project cost for all project combined, as per DPR, to be mentioned. For Ex: if there are two projects, one for 100 Cr and another for 50 Cr, then combined cost i.e. 150 Cr will be entered in the total project cost."
+                                            matTooltipPosition="above">
+                                        <img src="../../../../assets/ticks/info_black_18dp.svg">
+                                       </span> </th>
+
+                                </tr>
+                            </thead>
+                            <!-- <tbody *ngIf="utilizationReport['controls']['projects']['controls'].length == 0">
+
+                                <tr>
+                                    <td class="t-i">
+                                        <span> -- </span>
+                                    </td>
+                                    <td class="t-i">
+                                        <span> -- </span>
+                                    </td>
+                                    <td class="t-i">
+                                        <span> -- </span>
+                                    </td>
+                                    <td class="t-i">
+                                        <span> -- </span>
+                                    </td>
+
+
+                                </tr>
+                            </tbody> -->
+                            <tbody *ngIf="utilizationReport['controls']['categoryWiseData_swm']['controls'].length > 0" formArrayName="categoryWiseData_swm">
+                                <!-- *ngFor="let dynamic of dynamic_td; let i = index;"   utilizationTable -->
+                                <tr *ngFor="let outputRow of tabelRows_SWMcategory.controls; let rowIndex_swm=index" [formGroupName]="rowIndex_swm" style="text-align: center; vertical-align: inherit;">
+                                    <td class="t-i">
+                                        <span>{{1+rowIndex_swm}}</span>
+                                    </td>
+                                    <td>
+                                        <input style="width:20rem;cursor:not-allowed" formControlName="category_name" class="t-i" disabled="true" value="{{outputRow.controls.category_name.value}}" (mouseout)="errorDisplayExp=false">
+                                    </td>
+                                    <td class="pos-td">
+                                        <input class="t-i form-control inputfield" formControlName="grantUtilised" appTwoDigitDecimaNumber>
+
+                                    </td>
+                                    <td>
+                                        <input class="t-i form-control inputfield" formControlName="numberOfProjects" appTwoDigitDecimaNumber>
+                                    </td>
+                                    <td>
+                                        <input class="t-i form-control " formControlName="totalProjectCost" appTwoDigitDecimaNumber>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+                <!-- project Details Table -->
+                <div class="table-responsive">
+                    <p style="margin-left: 5px; font-weight: 500;">Project Details as on 31st March 2021<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="In the below table, the project details have to be filled in by the ULBs as on 31st March 2021." matTooltipPosition="above">
+                        <img src="../../../../assets/ticks/info_black_18dp.svg">
+                       </span> </p>
+                    <table class="table custom-position tableStriped">
+                        <thead>
+                            <tr class="thHeader">
+                                <th scope="col">S.No</th>
+                                <th scope="col">Name of the Project</th>
+                                <th width="20%" scope="col">Sector</th>
+
+                                <!-- <th scope="col">Description</th>
+                                <th scope="col">Capacity</th> -->
+                                <!-- <th scope="col">Upload Images</th> -->
+                                <th scope="col">Co-ordinates<br>Latitude and Longitude</th>
+                                <!-- <th scope="col">Engineer's Name<br></th> -->
+                                <!-- <th scope="col">Engineer's Contact Number<br></th> -->
+                                <th scope="col">Total Project Cost<br> (INR in lakhs)
+                                    <div matTooltip="The total project cost is as per the DPR." matTooltipPosition="above" [matTooltipClass]="{'tool-tip' : true}">
+                                        <img src="../../../../assets/ticks/info_black_18dp.svg">
+                                    </div>
+                                </th>
+                                <th scope="col">Amount of 15<sup>th</sup> FC Grants in Total Project Cost<br>(INR in lakhs)<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="This is the outlay from 15th FC grant out of the total project cost. For Ex: If project total cost is 100 Cr, out of which 80 Cr is sourced from AMRUT 2.0, rest 20 Cr is sourced from 15th FC tied grants, then 20 Cr should be entered here. Please do not enter the expenditure incurred."
+                                        matTooltipPosition="above">
+                                    <img src="../../../../assets/ticks/info_black_18dp.svg">
+                                   </span>
+                                </th>
+                                <th scope="col">% of 15<sup>th</sup> FC Grants in Total Project Cost<br></th>
+
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+
+                        <tbody *ngIf="utilizationReport['controls']['projects']['controls'].length == 0">
+
+                            <tr>
+                                <td class="t-i">
+                                    <span> -- </span>
+                                </td>
+                                <td class="t-i">
+                                    <span> -- </span>
+                                </td>
+                                <td class="t-i">
+                                    <span> -- </span>
+                                </td>
+                                <td class="t-i">
+                                    <span> -- </span>
+                                </td>
+                                <td class="t-i">
+                                    <span> -- </span>
+                                </td>
+                                <td class="t-i">
+                                    <span> -- </span>
+                                </td>
+                                <td class="t-i">
+                                    <span> -- </span>
+                                </td>
+                                <td class="t-i">
+                                    <span> -- </span>
+                                </td>
+                                <td class="t-i">
+                                    <span> -- </span>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="utilizationReport['controls']['projects']['controls'].length > 0" formArrayName="projects">
+                            <!-- *ngFor="let dynamic of dynamic_td; let i = index;"   utilizationTable -->
+                            <tr *ngFor="let projectRow of tabelRows.controls; let projectIndex=index" [formGroupName]="projectIndex" style="text-align: center; vertical-align: inherit;">
+                                <td class="t-i">
+                                    <span>{{1+projectIndex}}</span>
+                                </td>
+                                <td class="pos-td">
+                                    <input type="text" data-toggle="tooltip" data-placement="top" class="t-i
+                                     form-control" [disabled]="isDisabled" [ngStyle]="{'border':(isSubmitted == true &&
+                                      utiReportFormControl.projects.controls[projectIndex].controls.name.errors?.required )? '1px solid red' : '' }" placeholder="Max 200 Characters" (mouseover)="errorDisplayName=true" (mouseout)="errorDisplayName=false"
+                                        formControlName="name" style="width: 10rem;" required>
+                                    <div class="bs-tooltip-top" role="tooltip" *ngIf="errorDisplayName &&
+                                    utiReportFormControl.projects.controls[projectIndex].controls.name.invalid &&
+                              (utiReportFormControl.projects.controls[projectIndex].controls.name.dirty ||
+                              utiReportFormControl.projects.controls[projectIndex].controls.name.touched || submitted)">
+
+                                        <span class="tooltip-inner" style="font-size: 10px;" *ngIf=" errorDisplayName && utiReportFormControl.projects.controls[projectIndex].controls.name.errors.required">
+                                            Name is required.
+                                        </span>
+                                        <span class="tooltip-inner" style="font-size: 10px;" *ngIf="errorDisplayName
+                                   && utiReportFormControl.projects.controls[projectIndex].controls.name.errors.maxlength">
+                                            Name less than 200 char.
+                                        </span>
+
+                                    </div>
+                                </td>
+                                <td>
+                                    <select class="t-i" *ngIf="categories" [disabled]="isDisabled" [ngStyle]="{'border':(isSubmitted == true && utiReportFormControl.projects.controls[projectIndex].controls.category.errors?.required)? '1px solid red' : '' }" (mouseover)="errorDisplayCat=true"
+                                        (mouseout)="errorDisplayCat=false" formControlName="category" data-toggle="tooltip" data-placement="top" style="width: auto;">
+                                        <option *ngFor="let item of categories; let j=index;" [value]="item._id">
+                                            {{item.name}}</option>
+                                    </select>
+                                    <div class="bs-tooltip-top" role="tooltip">
+                                        <span class="tooltip-inner" style="font-size: 10px; margin-left: 0;" *ngIf="(utiReportFormControl.projects.controls[projectIndex].controls.category.touched
+                                        || submitted)
+                                    && errorDisplayCat
+                                     && utiReportFormControl.projects.controls[projectIndex].controls.category.errors?.required">
+                                            Project category required*
+                                        </span>
+                                    </div>
+                                </td>
+
+                                <td style="display: inline-flex;" formGroupName="location">
+                                    <input type="text" class="t-i form-control" (mouseover)="errorDisplayLat=true" (mouseout)="errorDisplayLat=false" [ngStyle]="{'border':(isSubmitted == true &&
+                                     (utiReportFormControl.projects.controls[projectIndex].controls.location.controls.lat.errors?.required ||
+                                     utiReportFormControl.projects.controls[projectIndex].controls.location.controls.lat.errors?.pattern)  ) ? '1px solid red' : '' }" formControlName="lat" [disabled]="isDisabled" appSixDigitDecimaNumber>
+                                    <div class="bs-tooltip-top" role="tooltip">
+                                        <span class="tooltip-inner" style="font-size: 10px; margin-left: 0;" *ngIf="(isSubmitted == true &&(utiReportFormControl.projects.controls[projectIndex].controls.location.controls.lat.errors?.required ||
+                                            utiReportFormControl.projects.controls[projectIndex].controls.location.controls.lat.errors?.pattern)) && errorDisplayLat">
+                                            Latitude Required*
+                                        </span>
+                                    </div>
+
+
+                                    <input type="text" class="t-i form-control" (mouseover)="errorDisplayLong=true" (mouseout)="errorDisplayLong= false" [ngStyle]="{'border':(isSubmitted == true &&
+                (utiReportFormControl.projects.controls[projectIndex].controls.location.controls.long.errors?.required ||
+                utiReportFormControl.projects.controls[projectIndex].controls.location.controls.long.errors?.pattern) )? '1px solid red' : '' }" formControlName="long" [disabled]="isDisabled" appSixDigitDecimaNumber>
+                                    <div class="bs-tooltip-top" role="tooltip">
+                                        <span class="tooltip-inner" style="font-size: 10px;" *ngIf="(isSubmitted == true &&
+                                        (utiReportFormControl.projects.controls[projectIndex].controls.location.controls.long.errors?.required ||
+                                        utiReportFormControl.projects.controls[projectIndex].controls.location.controls.long.errors?.pattern)) &&
+                 errorDisplayLong">
+                                            Longitude Required*
+                                        </span>
+                                    </div>
+
+                                    <!-- <span id="mapCon"
+                                    (click)="openDialog(projectIndex)"
+                                     class="fa fa-map-marker"
+                                     style="width: 30px; height: 18px; margin-top: 1rem;color:#3b8e91"></span> -->
+                                    <a (click)="openDialog(projectIndex)" [ngClass]="{'anDisable': isDisabled }">
+                                        <mat-icon aria-hidden="false">
+                                            <img src="../../../../assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">
+                                        </mat-icon>
+                                    </a>
+                                </td>
+                                <!-- <td class="pos-td">
+                                    <input type="text" data-toggle="tooltip" data-placement="top" class="t-i
+                                     form-control" [disabled]="isDisabled"
+                                        [ngStyle]="{'border':(isSubmitted == true &&
+                                      utiReportFormControl.projects.controls[projectIndex].controls.engineerName.errors?.required )? '1px solid red' : '' }"
+                                        (mouseover)="errorDisplayEngineerName=true"
+                                        (mouseout)="errorDisplayEngineerName=false" formControlName="engineerName"
+                                        style="width: 10rem;" required>
+                                    <div class="bs-tooltip-top" role="tooltip"
+                                        *ngIf="errorDisplayEngineerName &&
+                                    utiReportFormControl.projects.controls[projectIndex].controls.engineerName.invalid &&
+                              (utiReportFormControl.projects.controls[projectIndex].controls.engineerName.dirty ||
+                              utiReportFormControl.projects.controls[projectIndex].controls.engineerName.touched || submitted)">
+
+                                        <span class="tooltip-inner" style="font-size: 10px;"
+                                            *ngIf=" errorDisplayEngineerName && utiReportFormControl.projects.controls[projectIndex].controls.engineerName.errors.required">
+                                            Engineer's Name is required.
+                                        </span>
+                                        <span class="tooltip-inner" style="font-size: 10px;"
+                                            *ngIf=" errorDisplayEngineerName && utiReportFormControl.projects.controls[projectIndex].controls.engineerName.errors.pattern">
+                                            Name must have atleast one Alphabet
+                                        </span>
+
+
+                                    </div>
+                                </td>
+                                <td class="pos-td">
+                                    <input type="text" data-toggle="tooltip" data-placement="top" class="t-i
+                                     form-control" [disabled]="isDisabled"
+                                        [ngStyle]="{'border':(isSubmitted == true &&
+                                      utiReportFormControl.projects.controls[projectIndex].controls.engineerContact.errors?.required )? '1px solid red' : '' }"
+                                        (mouseover)="errorDisplayContact=true" (mouseout)="errorDisplayContact=false"
+                                        formControlName="engineerContact" style="width: 10rem;" required>
+                                    <div class="bs-tooltip-top" role="tooltip"
+                                        *ngIf="errorDisplayContact &&
+                                    utiReportFormControl.projects.controls[projectIndex].controls.engineerContact.invalid &&
+                              (utiReportFormControl.projects.controls[projectIndex].controls.engineerContact.dirty ||
+                              utiReportFormControl.projects.controls[projectIndex].controls.engineerContact.touched || submitted)">
+
+                                        <span class="tooltip-inner" style="font-size: 10px;"
+                                            *ngIf=" errorDisplayContact && utiReportFormControl.projects.controls[projectIndex].controls.engineerContact.errors.required">
+                                            Engineer's Contact Number is required.
+                                        </span>
+                                        <span class="tooltip-inner" style="font-size: 10px;"
+                                            *ngIf=" errorDisplayContact && utiReportFormControl.projects.controls[projectIndex].controls.engineerContact.errors.pattern">
+                                            Enter a Valid 10 Digit Contact Number
+                                        </span>
+
+
+                                    </div>
+                                </td> -->
+                                <td class="t-i">
+                                    <input class="t-i form-control" [disabled]="isDisabled" [ngStyle]="{'border':(isSubmitted == true &&
+     utiReportFormControl.projects.controls[projectIndex].controls.cost.errors?.required)? '1px solid red' : '' }" (change)="totalProCost(projectIndex)" (mouseover)="errorDisplayCost=true" (mouseout)="errorDisplayCost=false" formControlName="cost" appTwoDigitDecimaNumber>
+                                    <div class="bs-tooltip-top" role="tooltip">
+                                        <span class="tooltip-inner" style="font-size: 10px; margin-left: 0;" *ngIf="(utiReportFormControl.projects.controls[projectIndex].controls.cost.touched
+                                    || submitted)
+                                && errorDisplayCost
+                                 && utiReportFormControl.projects.controls[projectIndex].controls.cost.errors?.required">
+                                            Cost required*
+                                        </span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <input class="t-i form-control" [disabled]="isDisabled" [ngStyle]="{'border':(isSubmitted == true
+                                     &&
+                                     utiReportFormControl.projects.controls[projectIndex].controls.expenditure.errors?.required)?
+                                     '1px solid red' : '' }" (mouseover)="errorDisplayExp=true" (mouseout)="errorDisplayExp=false" (change)="totalExpCost(projectIndex)" formControlName="expenditure" appTwoDigitDecimaNumber>
+                                    <div class="bs-tooltip-top" role="tooltip">
+                                        <span class="tooltip-inner" style="font-size: 10px; margin-left: 0;" *ngIf="(utiReportFormControl.projects.controls[projectIndex].controls.cost.touched
+                                    || submitted)
+                                && errorDisplayExp
+                                 && utiReportFormControl.projects.controls[projectIndex].controls.expenditure.errors?.required">
+                                            Amount required*
+                                        </span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <input class="t-i form-control" [disabled]="true" value="{{((projectRow.value.expenditure/projectRow.value.cost)*100).toFixed(2) >=0? ((projectRow.value.expenditure/projectRow.value.cost)*100).toFixed(2) : 0 }}%" (mouseout)="errorDisplayExp=false">
+
+                                </td>
+
+
+                                <td>
+                                    <a [ngClass]="{'anDisable': isDisabled }" (click)="deleteRow(projectIndex)" [disabled]="isDisabled">
+                                        <mat-icon aria-hidden="false">
+                                            <img src="../../../../assets/form-icon/Icon material-delete.svg">
+                                        </mat-icon>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody>
+                            <tr class="tableFooterDiv" style="text-align: center; vertical-align: inherit;">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <!-- <td></td> -->
+                                <!-- <td></td> -->
+
+                                <td style="text-align:right"><span><b> Total(INR in lakhs) </b> </span></td>
+                                <td><span> <b> {{projectCost}}</b></span></td>
+                                <td>
+                                    <span (mouseover)="errorDisplayProExp=true" (mouseout)="errorDisplayProExp=false">
+                                        <b [ngStyle]="{'border':(isSumEqual == false)? '' : '1px solid red' }">
+
+                                            {{projectExp.toFixed(2)}}</b>
+                                    </span>
+                                    <!-- <div class="bs-tooltip-top" role="tooltip">
+                                        <span class="tooltip-inner" style="margin-left: -39rem;"
+                                            *ngIf="isSumEqual && errorDisplayProExp">
+                                            Total Expenditure should be equal to (iii) Expenditure incurred during the
+                                            year
+                                        </span>
+                                    </div> -->
+                                </td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- <div class="text-right tableFooterDiv">
+                      <span class="tableFooter">Total</span>
+                      <span class="tableFooter">50000</span>
+                      <span class="tableFooter">25000</span>
+                  </div> -->
+                <div class="addMoreDiv text-right">
+                    <button type="button" class="btn" (click)="addRow()" id="addmoreBtn" [disabled]="isDisabled">
+                        <span class="material-icons text-center" style="font-size: 12px; margin-right: 3px;">
+                            add_circle_outline
+                        </span>Add more</button>
+                </div>
+
+
+                <div class="form-group row formfooter">
+                    <label for="name" class="col-sm-2 col-form-label" style="margin-top: 10px; ">Name<span
+                            style="color: red;">*</span> :</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="name" [ngStyle]="{'border':(isSubmitted == true && utiReportFormControl.name.errors?.required) ? '1px solid red' : '' }" (change)="whiteSpaceRem('name')" [disabled]="isDisabled" formControlName="name">
+                        <!-- <div *ngIf="utiReportFormControl.name.invalid &&
+                        (utiReportFormControl.dirty || utiReportFormControl.touched)" class="alert alert-danger">
+
+                            <div *ngIf="utiReportFormControl.name.errors.required">
+                                Name is required.
+                            </div>
+                        </div> -->
+                        <span class="text-danger" *ngIf="(utiReportFormControl.name.touched || submitted) &&
+                                 utiReportFormControl.name.errors?.required" style="margin-left: 10px;">
+                            Name is required*
+                        </span>
+                        <span class="text-danger" *ngIf="utiReportFormControl.name.errors?.maxlength" style="margin-left: 10px;">
+                            Maximum 50 Characters are allowed*</span>
+
+                    </div>
+                    <label for="designation" class="col-sm-2 col-form-label" style="margin-top: 10px;">Designation<span
+                            style="color: red;">*</span> :</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="designation" [ngStyle]="{'border':(isSubmitted == true) && (utiReportFormControl.designation.errors?.required) ? '1px solid red' : '' }" [disabled]="isDisabled" (change)="whiteSpaceRem('designation')" formControlName="designation">
+                        <span class="text-danger" *ngIf="(utiReportFormControl.designation.touched || submitted) &&
+                                 utiReportFormControl.designation.errors?.required" style="margin-left: 10px;">
+                            Designation is required*
+                        </span>
+                        <span class="text-danger" *ngIf="utiReportFormControl.designation.errors?.maxlength" style="margin-left: 10px;">
+                            Maximum 50 Characters are allowed*</span>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>
+<div class="card" style="background-color: #F7F7F7;" *ngIf="((loggedInUserType === userTypes.STATE ||
+ loggedInUserType === userTypes.MoHUA)
+ && utilizationReport &&
+ (takeStateAction == 'true') &&  (compDis == 'false') )">
+    <div class="card-body">
+        <app-state-action-ulb (actionValues)="checkStatus($event)" [statusResponse]='actionRes'> </app-state-action-ulb>
+    </div>
+</div>
+<!-- (ulbFormStaus !== 'NA') -->
+<!-- {{compDis}}, {{finalSubmitUtiStatus}} -->
+<div class="card" style="background-color: #F7F7F7;" *ngIf="(utilizationReport &&
+ (finalSubmitUtiStatus == 'true' && loggedInUserType == userTypes.ULB) ||
+ (loggedInUserType != userTypes.ULB && compDis == 'true')
+ )">
+    <div class="card-body" style="padding: 1%;">
+        <p><b style="padding-right: 27px;">State Review Status :</b>
+
+            <!-- {{ulbFormStaus | titlecase}} -->
+
+            <label class="btn btn-success d-p" style="" [ngClass]="{'btn-a' : (ulbFormStaus == 'APPROVED'),
+          'btn-r' : (ulbFormStaus == 'REJECTED'), 'btn-p' : (ulbFormStatusMoHUA == 'PENDING' || ulbFormStaus == 'PENDING'  )}">
+                {{ulbFormStaus | titlecase}}</label>
+        </p>
+        <br>
+        <p *ngIf="ulbFormStatusMoHUA && (finalSubmitUtiStatus == 'true')"><b style="padding-right: 10px;"> MoHUA Review
+                Status :</b>
+            <!-- {{ulbFormStatusMoHUA | titlecase}} -->
+            <label class="btn btn-success d-p" style="" [ngClass]="{'btn-a' : (ulbFormStatusMoHUA == 'APPROVED'),
+           'btn-r' : (ulbFormStatusMoHUA == 'REJECTED'), 'btn-p' : (ulbFormStatusMoHUA == 'PENDING')}">
+                {{ulbFormStatusMoHUA | titlecase}}</label>
+        </p>
+        <br>
+        <p *ngIf="ulbFormStaus == 'REJECTED'">
+            <b style="font-weight: 600;">Reason for return :</b> {{ulbFormRejectR}}
+        </p>
+
+    </div>
+</div>
+<!-- <div class="card" style="background-color: #F7F7F7;" *ngIf="(utilizationReport &&
+(loggedInUserType === userTypes.ULB) && (finalSubmitUtiStatus == 'true'))">
+    <div class="card-body" style="padding: 1%;">
+        <div class="btn-group float-right" *ngIf="" btnRadioGroup style="">
+            <label class="btn btn-success" style="width: 82px;" [ngClass]="{'btn-a' : btnStyleA, 'btn-r' : btnStyleR}">
+              {{stateAction | titlecase}}</label>
+        </div>
+    </div>
+</div> -->
+<div class="row footerBtnDiv">
+    <div class="col-lg-6 col-md-6 col-sm-6">
+        <a type="button" class="btn btn-secondary backbtn" (click)="backButtonClicked = true" [routerLink]="['../grant-tra-certi']">BACK</a>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 text-end">
+        <!-- <button type="button" class="btn footerBtn" id="saveDraft" (click)="saveAsDraft()">SAVE AS DRAFT</button> -->
+        <button type="button" class="btn footerBtn" id="saveNext" (click)="clickedSaveAndNext(template1)">{{saveBtn}}</button>
+    </div>
+</div>
+
+
+
+<ng-template #templateUtil>
+    <div class="modal-body text-center">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <p style="margin-top: 8px;">
+            Are you sure you want to proceed further?
+            <div>
+                <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
+                <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; width:auto" (click)="proceed()">Save &
+                Proceed</button>
+            </div>
+
+    </div>
+</ng-template>
+<ng-template #template1>
+    <div class="modal-body text-center">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <p style="margin-top: 8px;">
+            Some Data in the form is missing/invalid. Do you wish to save the Data in Draft Mode?
+        </p>
+        <div>
+            <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
+            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c" (click)="proceed()">Proceed</button>
+        </div>
+
+    </div>
+</ng-template>

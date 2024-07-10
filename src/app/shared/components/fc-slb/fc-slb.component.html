@@ -1,0 +1,779 @@
+<!-- This form contains four rows. In 2020-21, there was a row level approval and fro 2021-22, there was Form Levle Approval -->
+<!-- in tbody, there are 8 tr, 2 for each Row. 1st Tr is the input TR and 2nd tr is the review status TR.  -->
+<div class="row">
+    <div class="card col-sm-12 mb-3 mt-4 p-1 box-shadow o-s" style="">
+        <form [formGroup]="form" *ngIf="form; else preloader" autocomplete="off" [ngClass]="{
+    'non-ulb-view-table': canSeeApproveActionTaken || canTakeApproveAction,
+    'ulb-view-table':
+      (canSeeApproveActionTaken || canTakeApproveAction) && canUploadFile
+  }">
+            <div class="table-responsive w-s">
+                <table aria-describedby="Water Waste Management Form" style="margin-bottom: 5%" class="table">
+                    <!--heading Labels of the form  -->
+                    <thead>
+                        <th scope="col">Service Level Indicators</th>
+                        <th scope="col">Benchmark</th>
+                        <th scope="col">
+                            Actual Indicator<br /> 2020-21
+                        </th>
+
+                        <th *ngFor="let column of targets" scope="col">
+                            <span style="padding: 0;" [innerHTML]="column.name"></span>
+                        </th>
+                    </thead>
+
+                    <tbody>
+                        <!-- this is the 1st input <tr> of this Form where data will be entered -->
+                        <tr *ngIf="services[0] as service" [formGroupName]="service.key" [ngClass]="{
+      'rejected-row':
+        form.controls[service.key]['controls']['status'].value ===
+        rejectAction
+    }">
+                            <!-- first element of the row - Question Label -->
+                            <td>
+                                <span class="service-name">{{ service.name }}
+          <span *ngIf="form?.controls[service.key].validator({})['required']" style="color: red;"
+            class="mandatory">*</span></span>
+                            </td>
+                            <!-- second element of row -> Benchmark values -->
+                            <td>
+                                <span class="benchamark-cell">{{ service.benchmark }}</span>
+                            </td>
+                            <!-- third element of the row -> actual of 20-21 -->
+                            <td formGroupName="baseline">
+                                <div class="input-group data-input">
+                                    <!-- (mouseover)="setFocusTarget(service.key+'baseline')" -->
+                                    <input (blur)="
+            onBlur(
+              form['controls'][service.key]['controls']['baseline']['controls'][
+                '2021'
+              ], '', 'actual', service.key
+            )" (mouseover)="setFocusTargetForErrorMessages(service.key+'baseline')" [id]="service.key +
+            'baseline'" type="text" class="form-control" formControlName="2021" [ngClass]="{
+            'is-invalid':
+              (isSubmitButtonClick &&
+                form.controls[service.key].controls['baseline']?.invalid) ||
+              (form.controls[service.key].controls['baseline']?.touched &&
+               ( form.controls[service.key].controls['baseline'].status == 'INVALID' ||
+               form.controls[service.key].controls['baseline']?.invalid) )
+          }" appFourTwoDigitNumber />
+                                    <span class="input-group-addon spanCustom"><em class="glyphicon">
+              {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+            </em></span>
+                                </div>
+
+                                <span class="error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+'baseline'] &&
+          form.controls[service.key]['controls']['baseline'].controls[
+            '2021'
+          ]?.errors as error
+        ">
+          <ng-container *ngIf="error.pattern || error.max || error.required  ">
+            <span *ngIf="error.pattern">
+              Only numeric values with 2 decimals digit are allowed and must be
+              greater than or equal to 0.
+            </span>
+                                <span *ngIf="error.max"> {{ error.max }} </span>
+                                <span *ngIf="error.required"> {{ messages[0] }} </span>
+                                </ng-container>
+                                <!-- {{
+        form.controls[service.key].controls["baseline"]
+          .controls["2021"].errors | json
+      }} -->
+                                </span>
+                            </td>
+                            <!-- fourth (21-22), fifth(22-23) , sixth (23-24) and seventh (24-25) element of the row -  -->
+                            <td *ngFor="let year of targets" formGroupName="target">
+                                <div class="input-group data-input">
+                                    <input (blur)="
+            onBlur(
+              form.controls[service.key]['controls']['target'].controls[
+                year.key
+              ], form.controls[service.key].controls['target'], year.key, service.key
+            );
+          " (mouseover)="setFocusTargetForErrorMessages(service.key+year.key)" [id]="service.key + year.key" type="text" class="form-control" [formControlName]="year.key" [ngClass]="{
+            'is-invalid':
+              ((isSubmitButtonClick ||
+                form.controls[service.key].controls['target'].controls[
+                  year.key
+                ].dirty) &&
+              form.controls[service.key].controls['target'].controls[
+                year.key
+              ].invalid) ||   (form.controls[service.key].controls['target'].controls[year.key].touched &&
+              (form.controls[service.key].controls['target'].controls[year.key].status  == 'INVALID'
+              || form.controls[service.key].controls['target'].controls[year.key].errors?.required
+              || form.controls[service.key].controls['target'].controls[year.key].errors?.pattern
+              || form.controls[service.key].controls['target'].controls[year.key]?.invalid) ) }" appFourTwoDigitNumber />
+                                    <span class="input-group-addon spanCustom"><em class="glyphicon">
+              {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+            </em></span>
+                                </div>
+                                <span class="error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+year.key] &&
+          form.controls[service.key]['controls']['target'].controls[
+            year.key
+          ]?.errors as error">
+          <ng-container *ngIf="error.pattern || error.max || error.required  ">
+            <span *ngIf="error.pattern">
+              Only numeric values with 2 decimals digit are allowed and must be
+              greater than or equal to 0.
+            </span>
+                                <span *ngIf="error.max"> {{ error.max }} </span>
+                                <span *ngIf="error.required">{{messages[0]}}</span>
+
+                                </ng-container>
+
+                                </span>
+                                <span class="error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+year.key] && form.controls[service.key]['controls']['target'].controls[
+        year.key
+        ]?.status === 'INVALID' && form.controls[service.key]['controls']['target'].controls[
+        year.key
+        ]?.errors == null">
+          {{messages[1]}}
+        </span>
+                            </td>
+
+
+                            <!-- Action Component (this was used in 2020-21 when row level approval system was there)  -->
+                            <!-- From 2021-22 module, there is a form level approval,  so  below <td> is not being used -->
+                            <td *ngIf="canSeeApproveActionTaken || canTakeApproveAction">
+                                <div class="actions" [ngClass]="{
+          'action-required':
+            isSubmitButtonClick &&
+            form.controls[service.key].controls['status'].invalid
+        }">
+                                    <div class="action" *ngIf="
+            form.controls[service.key]['controls']['status'].enabled ||
+            form.controls[service.key]['controls']['status'].value ===
+              approveAction
+          ">
+                                        <label>
+              <input type="radio" [value]="approveAction" formControlName="status" />
+              <span>
+                {{
+                form.controls[service.key]["controls"]["status"].disabled
+                ? "Approved"
+                : actionNames[approveAction]
+                }}
+              </span>
+            </label>
+                                    </div>
+                                    <div class="action" *ngIf="
+            form.controls[service.key]['controls']['status'].enabled ||
+            form.controls[service.key]['controls']['status'].value ===
+              rejectAction
+          ">
+                                        <label>
+              <input type="radio" [value]="rejectAction" formControlName="status" />
+              <span>
+                {{
+                form.controls[service.key]["controls"]["status"].disabled
+                ? "Rejected"
+                : actionNames[rejectAction]
+                }}
+              </span>
+            </label>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- Shows the review status of 1st Row-->
+                        <tr *ngIf="
+      form.controls[services[0].key]['controls']['status'].value ===
+      rejectAction
+    ">
+                            <td></td>
+                            <td></td>
+                            <td colspan="5" style="text-align: left">
+                                <span style="font-weight: 700; text-align: left">Reason for rejection</span>
+                                <div class="input-group" style="width: 100%">
+                                    <div *ngIf="form.controls[services[0].key]['controls']['rejectReason']?.disabled">
+                                        {{form.controls[services[0].key]['controls']['rejectReason'].value}}
+                                    </div>
+                                    <textarea *ngIf="form.controls[services[0].key]['controls']['rejectReason'].enabled" rows="3" style="width: 100%" class="form-control" [formControl]="
+            form.controls[services[0].key]['controls']['rejectReason']
+          " [ngClass]="{
+            'is-invalid':
+              isSubmitButtonClick &&
+              form.controls[services[0].key].controls['rejectReason']
+                .invalid
+          }">
+        </textarea>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- this is the 2nd input <tr> of this Form where data will be entered -->
+                        <tr *ngIf="services[1] as service" [formGroupName]="service.key" [ngClass]="{
+      'rejected-row':
+        form.controls[service.key]['controls']['status'].value ===
+        rejectAction
+    }">
+                            <td>
+                                <span class="service-name">{{ service.name }}
+          <span *ngIf="form?.controls[service.key].validator({})['required']" style="color: red;"
+            class="mandatory">*</span></span>
+                            </td>
+                            <td>
+                                <span class="benchamark-cell">{{ service.benchmark }}</span>
+                            </td>
+                            <td formGroupName="baseline">
+                                <div class="input-group data-input">
+                                    <input (blur)="
+            onBlur(
+              form.controls[service.key]['controls']['baseline'].controls[
+                '2021'
+              ], '', 'actual', service.key,false
+            )
+          " (mouseover)="setFocusTargetForErrorMessages(service.key+'baseline')" [id]="service.key + 'baseline'" type="text" class="form-control" formControlName="2021" [ngClass]="{
+            'is-invalid':
+              (isSubmitButtonClick &&
+                form.controls[service.key].controls['baseline']?.invalid) ||
+                (form.controls[service.key].controls['baseline']?.touched &&
+                ( form.controls[service.key].controls['baseline'].status == 'INVALID' ||
+                form.controls[service.key].controls['baseline']?.invalid) )
+          }" appFourTwoDigitNumber />
+                                    <span class="input-group-addon spanCustom"><em class="glyphicon">
+              {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+            </em></span>
+                                </div>
+
+                                <span class="error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+'baseline'] &&
+        form.controls[service.key]['controls']['baseline'].controls[
+          '2021'
+        ]?.errors as error
+      ">
+          <ng-container *ngIf="error.pattern || error.max || error.required  ">
+            <span *ngIf="error.pattern">
+              Only numeric values with 2 decimals digit are allowed and must be
+              greater than or equal to 0.
+            </span>
+                                <span *ngIf="error.max"> {{ error.max }} </span>
+                                <span *ngIf="error.required"> {{ messages[0] }} </span>
+                                </ng-container>
+
+                                <!-- {{
+        form.controls[service.key].controls["baseline"]
+          .controls["2021"].errors | json
+      }} -->
+                                </span>
+                            </td>
+                            <td *ngFor="let year of targets" formGroupName="target">
+                                <div class="input-group data-input">
+                                    <input (blur)="
+            onBlur(
+              form.controls[service.key]['controls']['target'].controls[
+                year.key
+              ], form.controls[service.key].controls['target'], year.key, service.key,false
+            )
+          " (mouseover)="setFocusTargetForErrorMessages(service.key+year.key)" [id]="service.key + year.key" type="text" class="form-control" [formControlName]="year.key" [ngClass]="{
+            'is-invalid':
+              ((isSubmitButtonClick ||
+                form.controls[service.key].controls['target'].controls[
+                  year.key
+                ].dirty) &&
+              form.controls[service.key].controls['target'].controls[
+                year.key
+              ].invalid) ||   (form.controls[service.key].controls['target'].controls[year.key].touched &&
+              (form.controls[service.key].controls['target'].controls[year.key].status  == 'INVALID'
+              || form.controls[service.key].controls['target'].controls[year.key].errors?.required
+              || form.controls[service.key].controls['target'].controls[year.key].errors?.pattern
+              || form.controls[service.key].controls['target'].controls[year.key]?.invalid) )}" appFourTwoDigitNumber />
+                                    <span class="input-group-addon spanCustom"><em class="glyphicon">
+              {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+            </em></span>
+                                </div>
+                                <span class="error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+year.key] &&
+          form.controls[service.key]['controls']['target'].controls[
+            year.key
+          ]?.errors as error
+        ">
+          <ng-container *ngIf="error.pattern || error.max || error.required ">
+            <span *ngIf="error.pattern">
+              Only numeric values with 2 decimals digit are allowed and must be
+              greater than or equal to 0.
+            </span>
+                                <span *ngIf="error.max"> {{ error.max }} </span>
+                                <span *ngIf="error.required"> {{messages[0]}} </span>
+                                </ng-container>
+                                </span>
+                                <span class="error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+year.key] && form.controls[service.key]['controls']['target'].controls[
+        year.key
+        ]?.status === 'INVALID' && form.controls[service.key]['controls']['target'].controls[
+        year.key
+        ]?.errors == null">
+          {{messages[2]}}
+        </span>
+                            </td>
+                            <td *ngIf="canSeeApproveActionTaken || canTakeApproveAction">
+                                <div class="actions" [ngClass]="{
+          'action-required':
+            isSubmitButtonClick &&
+            form.controls[service.key].controls['status'].invalid
+        }">
+                                    <div class="action" *ngIf="
+            form.controls[service.key]['controls']['status'].enabled ||
+            form.controls[service.key]['controls']['status'].value ===
+              approveAction
+          ">
+                                        <label>
+              <input type="radio" [value]="approveAction" formControlName="status" />
+              <span>
+                {{
+                form.controls[service.key]["controls"]["status"].disabled
+                ? "Approved"
+                : actionNames[approveAction]
+                }}
+              </span>
+            </label>
+                                    </div>
+                                    <div class="action" *ngIf="
+            form.controls[service.key]['controls']['status'].enabled ||
+            form.controls[service.key]['controls']['status'].value ===
+              rejectAction
+          ">
+                                        <label>
+              <input type="radio" [value]="rejectAction" formControlName="status" />
+              <span>
+                {{
+                form.controls[service.key]["controls"]["status"].disabled
+                ? "Rejected"
+                : actionNames[rejectAction]
+                }}
+              </span>
+            </label>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- Shows the review status of 2nd Row-->
+                        <tr *ngIf="
+      form.controls[services[1].key]['controls']['status'].value ===
+      rejectAction
+    ">
+                            <td></td>
+                            <td></td>
+                            <td colspan="5" style="text-align: left">
+                                <span style="font-weight: 700; text-align: left">Reason for rejection</span>
+                                <div class="input-group" style="width: 100%">
+                                    <div *ngIf="form.controls[services[1].key]['controls']['rejectReason']?.disabled">
+                                        {{form.controls[services[1].key]['controls']['rejectReason'].value}}
+                                    </div>
+                                    <textarea *ngIf="form.controls[services[1].key]['controls']['rejectReason']?.enabled" rows="3" style="width: 100%" class="form-control" [formControl]="
+            form.controls[services[1].key]['controls']['rejectReason']
+          " placeholder="Reason for Reject" [ngClass]="{
+            'is-invalid':
+              isSubmitButtonClick &&
+              form.controls[services[1].key].controls['rejectReason']
+                .invalid
+          }">
+        </textarea>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- this is the 3rd input <tr> of this Form where data will be entered -->
+                        <tr *ngIf="services[2] as service" [formGroupName]="service.key" [ngClass]="{
+      'rejected-row':
+        form.controls[service.key]['controls']['status'].value ===
+        rejectAction
+    }">
+                            <td>
+                                <span class="service-name">{{ service.name }}
+          <span *ngIf="form?.controls[service.key].validator({})['required']" style="color: red;"
+            class="mandatory">*</span></span>
+                            </td>
+                            <td>
+                                <span class="benchamark-cell">{{ service.benchmark }}</span>
+                            </td>
+                            <td formGroupName="baseline">
+                                <div class="input-group data-input">
+                                    <input (blur)="
+            onBlur(
+              form.controls[service.key]['controls']['baseline'].controls[
+                '2021'
+              ], '', 'actual', service.key
+            )
+          " (mouseover)="setFocusTargetForErrorMessages(service.key+'baseline')" [id]="service.key + 'baseline'" type="text" class="form-control" formControlName="2021" [ngClass]="{
+            'is-invalid':
+              (isSubmitButtonClick &&
+                form.controls[service.key].controls['baseline']?.invalid) ||
+                (form.controls[service.key].controls['baseline']?.touched &&
+                ( form.controls[service.key].controls['baseline'].status == 'INVALID' ||
+                form.controls[service.key].controls['baseline']?.invalid) )
+          }" appFourTwoDigitNumber/>
+                                    <span class="input-group-addon spanCustom"><em class="glyphicon">
+              {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+            </em></span>
+                                </div>
+
+                                <span class="error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+'baseline'] &&
+        form.controls[service.key]['controls']['baseline'].controls[
+          '2021'
+        ]?.errors as error
+      ">
+          <ng-container *ngIf="error.pattern || error.max || error.required  ">
+            <span *ngIf="error.pattern">
+              Only numeric values with 2 decimals digit are allowed and must be
+              greater than or equal to 0.
+            </span>
+                                <span *ngIf="error.max"> {{ error.max }} </span>
+                                <span *ngIf="error.required"> {{ messages[0] }} </span>
+                                </ng-container>
+
+                                <!-- {{
+        form.controls[service.key].controls["baseline"]
+          .controls["2021"].errors | json
+      }} -->
+                                </span>
+                            </td>
+                            <td *ngFor="let year of targets" formGroupName="target">
+                                <div class="input-group data-input">
+                                    <input (blur)="
+            onBlur(
+              form.controls[service.key]['controls']['target'].controls[
+                year.key
+              ], form.controls[service.key].controls['target'], year.key, service.key
+            )
+          " (mouseover)="setFocusTargetForErrorMessages(service.key+year.key)" [id]="service.key + year.key" type="text" class="form-control" [formControlName]="year.key" [ngClass]="{
+            'is-invalid':
+              ((isSubmitButtonClick ||
+                form.controls[service.key].controls['target'].controls[
+                  year.key
+                ].dirty) &&
+              form.controls[service.key].controls['target'].controls[
+                year.key
+              ].invalid) ||   (form.controls[service.key].controls['target'].controls[year.key].touched &&
+              (form.controls[service.key].controls['target'].controls[year.key].status  == 'INVALID'
+              || form.controls[service.key].controls['target'].controls[year.key].errors?.required
+              || form.controls[service.key].controls['target'].controls[year.key].errors?.pattern
+              || form.controls[service.key].controls['target'].controls[year.key]?.invalid) )
+          }" appFourTwoDigitNumber/>
+                                    <span class="input-group-addon spanCustom"><em class="glyphicon">
+              {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+            </em></span>
+                                </div>
+                                <span class="error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+year.key] &&
+        form.controls[service.key]['controls']['target'].controls[
+          year.key
+        ]?.errors as error
+        ">
+          <ng-container *ngIf="error.pattern || error.max || error.required">
+            <span *ngIf="error.pattern">
+              Only numeric values with 2 decimals digit are allowed and must be
+              greater than or equal to 0.
+            </span>
+                                <span *ngIf="error.max"> {{ error.max }} </span>
+                                <span *ngIf="error.required"> {{ messages[0] }} </span>
+                                </ng-container>
+                                </span>
+                                <span class="error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+year.key] && form.controls[service.key]['controls']['target'].controls[
+        year.key
+        ]?.status === 'INVALID' && form.controls[service.key]['controls']['target'].controls[
+        year.key
+        ]?.errors == null">
+          {{messages[1]}}
+        </span>
+                            </td>
+                            <td *ngIf="canSeeApproveActionTaken || canTakeApproveAction">
+                                <div class="actions" [ngClass]="{
+          'action-required':
+            isSubmitButtonClick &&
+            form.controls[service.key].controls['status'].invalid
+        }">
+                                    <div class="action" *ngIf="
+            form.controls[service.key]['controls']['status'].enabled ||
+            form.controls[service.key]['controls']['status'].value ===
+              approveAction
+          ">
+                                        <label>
+              <input type="radio" [value]="approveAction" formControlName="status" />
+              <span>
+                {{
+                form.controls[service.key]["controls"]["status"].disabled
+                ? "Approved"
+                : actionNames[approveAction]
+                }}
+              </span>
+            </label>
+                                    </div>
+                                    <div class="action" *ngIf="
+            form.controls[service.key]['controls']['status'].enabled ||
+            form.controls[service.key]['controls']['status'].value ===
+              rejectAction
+          ">
+                                        <label>
+              <input type="radio" [value]="rejectAction" formControlName="status" />
+              <span>
+                {{
+                form.controls[service.key]["controls"]["status"].disabled
+                ? "Rejected"
+                : actionNames[rejectAction]
+                }}
+              </span>
+            </label>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- Shows the review status of 3rd Row-->
+                        <tr *ngIf="
+      form.controls[services[2].key]['controls']['status'].value ===
+      rejectAction
+    ">
+                            <td></td>
+                            <td></td>
+                            <td colspan="5" style="text-align: left">
+                                <span style="font-weight: 700; text-align: left">Reason for rejection</span>
+                                <div class="input-group" style="width: 100%">
+                                    <div *ngIf="form.controls[services[2].key]['controls']['rejectReason']?.disabled">
+                                        {{form.controls[services[2].key]['controls']['rejectReason'].value}}
+                                    </div>
+                                    <textarea *ngIf="form.controls[services[2].key]['controls']['rejectReason']?.enabled" rows="3" style="width: 100%" class="form-control" [formControl]="
+            form.controls[services[2].key]['controls']['rejectReason']
+          " placeholder="Reason for Reject" [ngClass]="{
+            'is-invalid':
+              isSubmitButtonClick &&
+              form.controls[services[2].key].controls['rejectReason']
+                .invalid
+          }">
+        </textarea>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- this is the 4th input <tr> of this Form where data will be entered -->
+                        <tr *ngIf="services[3] as service" [formGroupName]="service.key" [ngClass]="{
+      'rejected-row':
+        form.controls[service.key]['controls']['status'].value ===
+        rejectAction
+    }">
+                            <td>
+                                <span class="service-name">{{ service.name }}
+          <span *ngIf="form?.controls[service.key].validator({})['required']" style="color: red;"
+            class="mandatory">*</span></span>
+                            </td>
+                            <td>
+                                <span class="benchamark-cell">{{ service.benchmark }}</span>
+                            </td>
+                            <td formGroupName="baseline">
+                                <div class="input-group data-input">
+                                    <input (blur)="
+            onBlur(
+              form.controls[service.key]['controls']['baseline'].controls[
+                '2021'
+              ], '', 'actual', service.key
+            )
+          " (mouseover)="setFocusTargetForErrorMessages(service.key+'baseline')" [id]="service.key + 'baseline'" type="text" class="form-control" formControlName="2021" [ngClass]="{
+            'is-invalid':
+              (isSubmitButtonClick &&
+                form.controls[service.key].controls['baseline']?.invalid) ||
+                (form.controls[service.key].controls['baseline']?.touched &&
+                ( form.controls[service.key].controls['baseline'].status == 'INVALID' ||
+                form.controls[service.key].controls['baseline']?.invalid) )
+          }" appFourTwoDigitNumber />
+                                    <span class="input-group-addon spanCustom"><em class="glyphicon">
+              {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+            </em></span>
+                                </div>
+
+                                <span class="error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+'baseline'] &&
+          form.controls[service.key]['controls']['baseline'].controls[
+            '2021'
+          ]?.errors as error
+        ">
+          <ng-container *ngIf="error.pattern || error.max || error.required  ">
+            <span *ngIf="error.pattern">
+              Only numeric values with 2 decimals digit are allowed and must be
+              greater than or equal to 0.
+            </span>
+                                <span *ngIf="error.max"> {{ error.max }} </span>
+                                <span *ngIf="error.required"> {{ messages[0]}} </span>
+                                </ng-container>
+
+                                <!-- {{
+        form.controls[service.key].controls["baseline"]
+          .controls["2021"].errors | json
+      }} -->
+                                </span>
+                            </td>
+                            <td *ngFor="let year of targets" formGroupName="target">
+                                <div class="input-group data-input">
+                                    <input (blur)="
+            onBlur(
+              form.controls[service.key]['controls']['target'].controls[
+                year.key
+              ], form.controls[service.key].controls['target'], year.key, service.key
+            )
+          " (mouseover)="setFocusTargetForErrorMessages(service.key+year.key)" [id]="service.key + year.key" type="text" class="form-control" [formControlName]="year.key" [ngClass]="{
+            'is-invalid':
+              ((isSubmitButtonClick ||
+                form.controls[service.key].controls['target'].controls[
+                  year.key
+                ].dirty) &&
+              form.controls[service.key].controls['target'].controls[
+                year.key
+              ].invalid) ||   (form.controls[service.key].controls['target'].controls[year.key].touched &&
+              (form.controls[service.key].controls['target'].controls[year.key].status  == 'INVALID'
+              || form.controls[service.key].controls['target'].controls[year.key].errors?.required
+              || form.controls[service.key].controls['target'].controls[year.key].errors?.pattern
+              || form.controls[service.key].controls['target'].controls[year.key]?.invalid) )
+          }" appFourTwoDigitNumber/>
+                                    <span class="input-group-addon  spanCustom"><em class="glyphicon">
+              {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+            </em></span>
+                                </div>
+                                <span class=" error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+year.key] &&
+        form.controls[service.key]['controls']['target'].controls[
+          year.key
+        ]?.errors as error">
+          <ng-container *ngIf="error.pattern || error.max || error.required ">
+            <span *ngIf="error.pattern">
+              Only numeric values with 2 decimals digit are allowed and must be
+              greater than or equal to 0.
+            </span>
+                                <!-- !error.patter !error.max error.hasOwn - msg -->
+                                <span *ngIf="error.max"> {{ error.max }} </span>
+                                <span *ngIf="error.required"> {{ messages[0] }} </span>
+                                </ng-container>
+
+                                </span>
+                                <span class="error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+year.key] && form.controls[service.key]['controls']['target'].controls[
+        year.key
+        ]?.status === 'INVALID' && form.controls[service.key]['controls']['target'].controls[
+        year.key
+        ]?.errors == null"> {{messages[1]}}
+        </span>
+                            </td>
+                            <td *ngIf="canSeeApproveActionTaken || canTakeApproveAction">
+                                <div class="actions" [ngClass]="{
+          'action-required':
+            isSubmitButtonClick &&
+            form.controls[service.key].controls['status'].invalid
+        }">
+                                    <div class="action" *ngIf="
+            form.controls[service.key]['controls']['status'].enabled ||
+            form.controls[service.key]['controls']['status'].value ===
+              approveAction
+          ">
+                                        <label>
+              <input type="radio" [value]="approveAction" formControlName="status" />
+              <span>
+                {{
+                form.controls[service.key]["controls"]["status"].disabled
+                ? "Approved"
+                : actionNames[approveAction]
+                }}
+              </span>
+            </label>
+                                    </div>
+                                    <div class="action" *ngIf="
+            form.controls[service.key]['controls']['status'].enabled ||
+            form.controls[service.key]['controls']['status'].value ===
+              rejectAction
+          ">
+                                        <label>
+              <input type="radio" [value]="rejectAction" formControlName="status" />
+              <span>
+                {{
+                form.controls[service.key]["controls"]["status"].disabled
+                ? "Rejected"
+                : actionNames[rejectAction]
+                }}
+              </span>
+            </label>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- Shows the review status of 4th Row-->
+                        <tr *ngIf="
+      form.controls[services[3].key]['controls']['status'].value ===
+      rejectAction
+    ">
+                            <td></td>
+                            <td></td>
+                            <td colspan="5" style="text-align: left">
+                                <span style="font-weight: 700; text-align: left">Reason for rejection</span>
+                                <div class="input-group" style="width: 100%">
+                                    <div *ngIf="form.controls[services[3].key]['controls']['rejectReason']?.disabled">
+                                        {{form.controls[services[3].key]['controls']['rejectReason'].value}}
+                                    </div>
+                                    <textarea *ngIf="form.controls[services[3].key]['controls']['rejectReason']?.enabled" rows="3" style="width: 100%" class="form-control" [formControl]="
+            form.controls[services[3].key]['controls']['rejectReason']
+          " placeholder="Reason for Reject" [ngClass]="{
+            'is-invalid':
+              isSubmitButtonClick &&
+              form.controls[services[3].key].controls['rejectReason']
+                .invalid
+          }">
+        </textarea>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+        </form>
+        <!-- loader -->
+        <ng-template #preloader>
+            <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
+        </ng-template>
+    </div>
+    <!-- Action Component View  -  from 2021-22 onwards-->
+    <div class="col-sm-12 card mb-2 mt-1 p-1 box-shadow" *ngIf="(
+    (finalSubmitStatus == 'true' && loggedInUserType == USER_TYPE.ULB) ||
+    (loggedInUserType != USER_TYPE.ULB && compDis == 'true')
+    )" [style.height]="ulbFormStaus == 'REJECTED' ? 'auto' : 'auto'">
+        <div class="card-body" style="padding-left: 6px; padding-top: 10px;">
+            <!-- <p><b>State Review Status :</b> {{ulbFormStaus | titlecase}}</p> -->
+            <p><b style="padding-right: 25px;">State Review Status :</b>
+                <label class="btn btn-success p-e-n" [ngClass]="{'btn-a' : (ulbFormStaus == 'APPROVED'),
+        'btn-r' : (ulbFormStaus == 'REJECTED'), 'btn-p' : (ulbFormStaus == 'PENDING' )}">
+        {{ulbFormStaus | titlecase}}</label>
+            </p>
+            <!-- <p *ngIf="ulbFormStatusMoHUA && (finalSubmitStatus == 'true')"><b>MoHUA Review Status
+            :</b> {{ulbFormStatusMoHUA | titlecase}}</p> -->
+            <p *ngIf="ulbFormStatusMoHUA && (finalSubmitStatus == 'true')">
+                <b style="padding-right: 10px;"> MoHUA Review Status :</b>
+                <label class="btn btn-success p-e-n" [ngClass]="{'btn-a' : (ulbFormStatusMoHUA == 'APPROVED'),
+             'btn-r' : (ulbFormStatusMoHUA == 'REJECTED'), 'btn-p' : (ulbFormStatusMoHUA == 'PENDING')}">
+        {{ulbFormStatusMoHUA | titlecase}}</label>
+            </p>
+            <p *ngIf="actionStatus?.st == 'REJECTED'">
+                <b style="font-weight: 600;">Reason for return :</b> 
+                <span class="ps-3">{{ulbFormRejectR}}</span>
+            </p>
+        </div>
+    </div>
+
+    <!-- save and next -->
+    <div class="row footerBtnDiv d-flex" *ngIf="loggedInUserDetails.role === USER_TYPE.ULB" style="padding: 0;">
+        <div class="col-sm-6">
+            <a type="button" class="btn backbtn" [routerLink]="['../annual_acc']">BACK</a>
+        </div>
+        <div class="col-sm-6 text-end">
+            <!-- <button type="button" class="btn footerBtn" id="saveDraft" (click)="saveAsDraft()">SAVE AS DRAFT</button> -->
+            <!--  -->
+            <button type="button" class="btn footerBtn" id="saveNext" [disabled]="isDisabled" (click)="saveNext(template1)">SAVE</button>
+        </div>
+    </div>
+</div>
+
+<ng-template #template1>
+    <div class="modal-body text-center">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <p style="margin-top: 8px;">
+            Some Data in the form is missing/invalid. Do you wish to save the Data in Draft Mode?
+        </p>
+        <div>
+            <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
+            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px;" (click)="proceed()">Proceed</button>
+        </div>
+    </div>
+</ng-template>

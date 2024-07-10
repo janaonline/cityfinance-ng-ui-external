@@ -1,0 +1,27 @@
+<ng-container *ngIf="canShow">
+    <div *ngIf="isUlb" class="mt-2 d-flex">
+        <button class="approve-btn btn btn-sm mr-1" disabled
+            [ngClass]="status === 'APPROVED' 
+                ? 'btn-success' 
+                : 'btn-danger'" >
+            {{ status === 'APPROVED' ? 'Approved' : 'Returned'}}
+        </button>
+        <mat-icon *ngIf="status === 'REJECTED'" class="cursor-pointer" (click)="openUlbActionDialog()" >info</mat-icon>
+    </div>
+    
+    <div class="mt-2" *ngIf="!isUlb">
+        <button class="approve-btn btn btn-sm" [disabled]="disabled || disableApprove"
+            [ngClass]="(status === 'APPROVED' || isApprovable) ? 'btn-success' : 'btn-outline-success'" for="APPROVED"
+            (click)="updateStatus('APPROVED')">
+            {{ (status === 'APPROVED' || isApprovable) ? 'Approved' : 'Approve'}}
+        </button>
+        <button class="reject-btn  btn-sm btn" [disabled]="disabled || disableReject"
+            [ngClass]="(status === 'REJECTED' && !isApprovable) ? 'btn-danger' : 'btn-outline-danger'" (click)="updateStatus('REJECTED')">
+            {{ (status === 'REJECTED' && !isApprovable) ? 'Returned' : 'Return'}}
+        </button>
+    </div>
+
+    <ng-container *ngIf="isInvalid">
+        <small class="d-block text-danger" *ngIf="isInvalid">Action is required</small>
+    </ng-container>
+</ng-container>

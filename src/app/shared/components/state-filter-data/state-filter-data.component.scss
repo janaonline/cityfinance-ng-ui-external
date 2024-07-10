@@ -1,0 +1,148 @@
+.tablerow {
+  width: 95%;
+  margin: 0 auto;
+  padding-top: 1em;
+}
+
+td:first-child {
+  background-color: #f7f9ff;
+  font-weight: 900;
+  color: #0f1f40;
+  text-align: left;
+  width: 2em;
+}
+
+td {
+  width: 6em;
+  text-align: center;
+  font-size: 0.8em;
+}
+
+.rankingButton {
+  border: 1px solid #9299b2;
+  color: #8b92a8;
+  border-radius: 6px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.activeButton {
+  border: 1px solid #f2991f;
+  color: #e57504;
+  background-color: #fff1e3;
+  box-shadow: 0px 2px 8px #fadaad;
+}
+
+.deSelected {
+  color: #8b92a8;
+  background-color: white;
+  border-color: #8b92a8;
+  font-size: 1em;
+}
+
+.selected {
+  color: #e57504;
+  background-color: #fff1e3;
+  border-color: #f2991f;
+  font-size: 1em;
+}
+
+.selected:focus {
+  outline: 0;
+  -webkit-box-shadow: 0 0 0 0.25rem #fadaad;
+  box-shadow: 0 0 0 0.25rem #fadaad;
+}
+/*# sourceMappingURL=filter-data.component.css.map */
+
+.bottomDownloadButton {
+  border: 1px solid #f2991f;
+  color: #f2991f;
+  border-radius: 6px;
+  background-color: white;
+  margin-left: 10px;
+}
+
+.checkboxLabel {
+  font-size: 0.8em;
+  margin-left: 5px;
+  text-align: center;
+}
+
+.checkboxLabel input {
+  margin: 5px;
+}
+
+.mixSelect {
+  width: 10em;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.mixSelect > option {
+  width: 10em;
+}
+
+.searchButton {
+  border: none;
+  padding: 9px;
+  border-radius: 5px;
+  margin-right: 10px;
+  background-color: #e67e15;
+  border: 1px solid #e67e15;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.searchButton:hover {
+  background-color: #ffffff;
+  color: #e67e15;
+  transition: 0.3s;
+  border: 1px solid #e67e15;
+}
+@media screen and (max-width: 800px) {
+
+  .rowClass{
+    display: flex;
+    flex-direction: column;
+  }
+  .main {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+  .customTableData{
+    height: 88px;
+    width: 120px;
+  }
+  
+  .table > .main > .rowClass > td:first-child {
+    width: 120px;
+    background-color: #f7f9ff;
+  }
+  .customizedButton {
+    width: 224px;
+    margin-left: 0% !important;
+  }
+  .customizedColumn{
+    padding-top:9px;
+    width: 200px;
+  }
+  .customPadding{
+    padding-left:10%;
+  }
+  .customDropdown{
+    height: 34px;
+    width: 229px;
+  }
+  .customInput{
+    width: 229px;
+  }
+  .bottomDownloadButton {
+    border: 1px solid #f2991f;
+    color: #f2991f;
+    border-radius: 6px;
+    background-color: white;
+    margin-left: 10px;
+    margin-top:10px;
+  }
+}
